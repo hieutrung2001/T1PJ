@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewData["Title"] = "Student List";
+}
+
+<div class="partial">
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(() => {
+            console.log('@Url.Action("Search", "Students")')
+            $('.partial').load('@Url.Action("Search", "Students")');
+        })
+    </script>
+}

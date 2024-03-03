@@ -1,0 +1,19 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using T1PJ.Repository.Services.Students;
+
+namespace T1PJ.Repository.Extensions
+{
+    public static class ApplicationServices
+    {
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        {
+            services.AddScoped<IStudentService, StudentService>();
+            return services;
+        }
+    }
+}
