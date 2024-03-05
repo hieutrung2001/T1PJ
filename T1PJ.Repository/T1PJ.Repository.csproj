@@ -16,7 +16,6 @@
 
   <ItemGroup>
     <Folder Include="Infrastructures\" />
-    <Folder Include="Services\Classes\" />
   </ItemGroup>
 
   <ItemGroup>

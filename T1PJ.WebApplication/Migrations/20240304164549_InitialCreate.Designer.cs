@@ -12,7 +12,7 @@ using T1PJ.DataLayer.Context;
 namespace T1PJ.WebApplication.Migrations
 {
     [DbContext(typeof(T1PJContext))]
-    [Migration("20240303084622_InitialCreate")]
+    [Migration("20240304164549_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

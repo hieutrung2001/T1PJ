@@ -1,42 +1,25 @@
-﻿@model DataLayer.Model.Students.EditViewModel
+﻿@model DataLayer.Model.Classes.CreateViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 @Html.AntiForgeryToken()
 <div class="row d-flex justify-content-center mt-lg-5">
     <div class="col-4">
-        <h3 class="text-center">Edit Student</h3>
+        <h3 class="text-center">Add New Class</h3>
         <hr />
-        <form method="post" id="formEditStudent">
-            <input type="hidden" asp-for="Id" />
+        <form method="post" id="formCreateClass">
             <!-- Fullname input -->
             <div data-mdb-input-init class="form-outline mb-4">
-                <input type="text" asp-for="FullName" class="form-control" />
-                <label class="form-label" asp-for="FullName"></label>
-                <span asp-validation-for="FullName"></span>
+                <input type="text" asp-for="Name" class="form-control" />
+                <label class="form-label" asp-for="Name"></label>
             </div>
 
-            <!-- Date of birth input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-                <input asp-for="Dob" class="form-control" disabled />
-                <label class="form-label" asp-for="Dob"></label>
-                <span asp-validation-for="Dob"></span>
-            </div>
 
-            <!-- Phone number input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-                <input asp-for="PhoneNumber" class="form-control" />
-                <label class="form-label" asp-for="PhoneNumber"></label>
-                <span asp-validation-for="PhoneNumber"></span>
-            </div>
-
-            <!-- Address input -->
-            <div data-mdb-input-init class="form-outline mb-4">
-                <input asp-for="Address" class="form-control" />
-                <label class="form-label" asp-for="Address"></label>
-                <span asp-validation-for="Address"></span>
+            <div class="mb-3">
+                <label>Select</label>
+                <select id="autoSelect2" multiple class="form-control" asp-for="StudentSelectList" asp-items="ViewBag.StudentSelectList"></select>
             </div>
 
             <!-- Submit button -->
@@ -45,7 +28,7 @@
                 <button type="button" class="btn btn-primary" id="btnSubmit" data-mdb-ripple-init>Save</button>
             </div>
             @* <button data-mdb-ripple-init type="button" id="btnSubmit" class="btn btn-primary btn- mb-4">Save</button>
-            *@
+ *@
         </form>
     </div>
 </div>
@@ -53,17 +36,19 @@
 
 <script>
     $(document).ready(() => {
+        $('#autoSelect2').select2()
+
         $('#btnPrevious').on('click', () => {
-            $('.partial').load('@Url.Action("Search", "Students")');
+            $('.partial').load('@Url.Action("Search", "Classes")');
         })
 
         // create student
         $("#btnSubmit").click(function (e) {
-            var valData = $("#formEditStudent").serialize();
+            var valData = $("#formCreateClass").serialize();
             $.ajax({
-                url: "/Students/Edit/" + $('#Id').val(),
+                url: "/Classes/Create",
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
-                type: "PUT",
+                type: "POST",
                 contentType: "application/x-www-form-urlencoded;charset=utf-8",
                 dataType: "JSON",
                 data: valData,
@@ -78,7 +63,7 @@
                         allowToastClose: true,
                         stack: false,
                     })
-                    $('.partial').load('@Url.Action("Search", "Students")')
+                    $('.partial').load('@Url.Action("Search", "Classes")')
                 },
                 error: function (error) {
                     $.toast({
@@ -95,3 +80,4 @@
         });
     })
 </script>
+

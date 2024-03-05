@@ -20,5 +20,6 @@ namespace T1PJ.DataLayer.Model.Students
         [Required]
         public string Address { get; set; }
         public DateTime LastUpdated { get; set; }
+        public DateTime Created { get; set; }
     }
 }

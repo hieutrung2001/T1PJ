@@ -1,21 +1,18 @@
-﻿@model IEnumerable<DataLayer.Model.Students.IndexModel>
+﻿@model IEnumerable<DataLayer.Model.Classes.IndexModel>
 @{
 }
 
-<h2>Student List</h2>
+<h2>Class List</h2>
 <hr />
-<button type="button" id="createStudent" class="btn btn-primary mb-5" data-mdb-ripple-init>Create</button>
+<button type="button" id="createClass" class="btn btn-primary mb-5" data-mdb-ripple-init>Create</button>
 
-<table id="studentListTable" class="table table-striped">
+<table id="classListTable" class="table table-striped">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>Class</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
+            <th>Students</th>
             <th>Options</th>
         </tr>
     </thead>
@@ -24,19 +21,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
+                    @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @if (item.Classes != null)
+                    @if (item.Students != null)
                     {
-                        @foreach (var c in item.Classes)
+                        @foreach (var c in item.Students)
                         {
-                            <a asp-controller="Classes" asp-action="Details" asp-route-id="@c.Id">@c.Name | </a>
+                            <a asp-controller="Students" asp-action="Details" asp-route-id="@c.Id">@c.FullName | </a>
                         }
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary w-0">
@@ -57,12 +51,9 @@
     <tfoot>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FullName)
+                @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th>Class</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
+            <th>Students</th>
             <th>Options</th>
         </tr>
     </tfoot>
@@ -70,7 +61,7 @@
 
 <script>
     $(document).ready(() => {
-        new DataTable('#studentListTable', {
+        new DataTable('#classListTable', {
             lengthMenu: [
                 [5, 10, 25, -1],
                 [5, 10, 25, 'All']
@@ -80,16 +71,15 @@
         console.log($('.action-button'))
 
         // form create
-        $('#createStudent').on('click', () => {
-            console.log('@Url.Action("Create", "Students")')
-            $('.partial').load('@Url.Action("Create", "Students")');
+        $('#createClass').on('click', () => {
+            $('.partial').load('@Url.Action("Create", "Classes")');
         })
 
         // form edit
         $.each($('.text-white.edit-button'), (key, val) => {
             val.addEventListener('click', () => {
                 var id = val.getAttribute('href').split('/')[3];
-                $('.partial').load('/Students/Edit/' + id);
+                $('.partial').load('/Classes/Edit/' + id);
             })
         })
 
@@ -98,7 +88,7 @@
             val.addEventListener('click', () => {
                 var id = val.getAttribute('href').split('/')[3];
                 $.ajax({
-                    url: "/Students/Delete/" + id,
+                    url: "/Classes/Delete/" + id,
                     headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
                     type: "DELETE",
                     dataType: "JSON",
@@ -112,7 +102,7 @@
                             allowToastClose: true,
                             stack: false,
                         })
-                        $('.partial').load('@Url.Action("Search", "Students")')
+                        $('.partial').load('@Url.Action("Search", "Classes")')
                     },
                     error: function (error) {
                         $.toast({
@@ -133,7 +123,7 @@
         $.each($('.text-white.detail-button'), (key, val) => {
             val.addEventListener('click', () => {
                 var id = val.getAttribute('href').split('/')[3];
-                $('.partial').load('/Students/Details/' + id);
+                $('.partial').load('/Classes/Details/' + id);
             })
         })
 

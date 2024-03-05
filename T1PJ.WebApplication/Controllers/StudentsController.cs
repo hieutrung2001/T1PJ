@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Serialization;
+using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Students;
 using T1PJ.Repository.Services.Students;
@@ -28,7 +29,8 @@ namespace T1PJ.WebApplication.Controllers
         public async Task<IActionResult> Search()
         {
             List<Student> students = await _service.GetAll();
-            return PartialView("_Search", _mapper.Map<List<IndexModel>>(students));
+            var model = _mapper.Map<List<IndexModel>>(students);
+            return PartialView("_Search", model);
         }
 
         public IActionResult Create()
@@ -55,15 +57,14 @@ namespace T1PJ.WebApplication.Controllers
             return PartialView("_Create", model);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public IActionResult Edit(int id)
         {
             if (_service.GetStudentById(id) == null)
             {
                 return null;
             }
-            var result = await _service.GetStudentById(id);
+            var result = _service.GetStudentById(id);
             EditViewModel model = _mapper.Map<EditViewModel>(result);
-            ViewData["Action"] = "_Edit";
             return PartialView("_Edit", model);
         }
 
@@ -80,7 +81,7 @@ namespace T1PJ.WebApplication.Controllers
                     return Json(new { status = "success" });
                 }
             }
-            return PartialView("_Edit", model);
+            return PartialView("Students\\_Edit", model);
         }
 
         [HttpDelete]
@@ -89,6 +90,17 @@ namespace T1PJ.WebApplication.Controllers
         {
             _service.Delete(id);
             return Json(new { status = "success" });
+        }
+
+        public IActionResult Details(int id)
+        {
+            if (_service.GetStudentById(id) == null)
+            {
+                return null;
+            }
+            var result = _service.GetStudentById(id);
+
+            return PartialView("_Details", _mapper.Map<EditViewModel>(result));
         }
     }
 }

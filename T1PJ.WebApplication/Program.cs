@@ -12,7 +12,6 @@ builder.Services.AddMvc();
 builder.Services
     .AddDbContext<T1PJContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("T1PJConnect") ?? throw new InvalidOperationException("Connection string 'T1PJContext' not found."), b => b.MigrationsAssembly("T1PJ.WebApplication")));
-builder.Services.AddDbContext<T1PJContext>(ServiceLifetime.Transient);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
