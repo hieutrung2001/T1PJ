@@ -14,6 +14,6 @@ namespace T1PJ.Repository.Services.Students
         Task<Student> GetStudentById(int id);
         Task<Student> Create(Student student);
         Task<Student> Update(Student student);
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

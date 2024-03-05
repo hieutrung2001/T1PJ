@@ -60,19 +60,19 @@ namespace T1PJ.Repository.Services.Students
             return student;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
             if (_context == null || _context.Students == null)
             {
-                return;
+                throw new Exception("Student not found!");
             }
-            if (_context.Students.FirstOrDefault(s => s.Id == id) == null)
+            if (student == null)
             {
-                return;
+                throw new Exception("Student not found!");
             }
-            var student = _context.Students.FirstOrDefault(s => s.Id == id);
             _context.Students.Remove(student);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             
         }
 
@@ -84,7 +84,7 @@ namespace T1PJ.Repository.Services.Students
             }
             var studentsOfClass = new List<Student>();
             var students = await GetAll();
-            if (classId != null && students != null)
+            if (students != null)
             {
                 foreach (var item in students)
                 {

@@ -71,7 +71,7 @@ namespace T1PJ.WebApplication.Controllers
             }
             var result = await _service.GetStudentById(id);
             EditViewModel model = _mapper.Map<EditViewModel>(result);
-            return PartialView("_Edit", model);
+            return View("_Edit", model);
         }
 
         [HttpPut]
@@ -92,10 +92,17 @@ namespace T1PJ.WebApplication.Controllers
 
         [HttpDelete]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _service.Delete(id);
-            return Json(new { status = true });
+            try
+            {
+                await _service.Delete(id);
+                return Json(new { status = true });
+
+            } catch (Exception ex)
+            {
+                return Json(new { status = false, message = ex.Message });
+            }
         }
 
         public async Task<IActionResult> Details(int id)

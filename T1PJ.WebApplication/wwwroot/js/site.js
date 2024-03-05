@@ -3,6 +3,6 @@
 
 // Write your JavaScript code.
 // Initialization for ES Users
-import { Modal, Input, Ripple, initMDB } from "mdb-ui-kit";
+//import { Modal, Input, Ripple, initMDB } from "mdb-ui-kit";
 
-initMDB({ Modal, Input, Ripple });
+//initMDB({ Modal, Input, Ripple });

@@ -68,10 +68,17 @@ namespace T1PJ.WebApplication.Controllers
 
         [HttpDelete]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _classService.Delete(id);
-            return Json(new { status = true });
+            try
+            {
+                await _classService.Delete(id);
+                return Json(new { status = true });
+
+            } catch (Exception ex)
+            {
+                return Json(new { status = false, message = ex.Message });
+            }
         }
 
         public async Task<IActionResult> Edit(int id)

@@ -59,20 +59,19 @@ namespace T1PJ.Repository.Services.Classes
             return c;
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
+            var c = _context.Classes.FirstOrDefault(s => s.Id == id);
             if (_context == null || _context.Classes == null)
             {
-                return;
+                throw new Exception("Class not found!");
             }
-            if (_context.Classes.FirstOrDefault(s => s.Id == id) == null)
+            if (c is null)
             {
-                return;
+                throw new Exception("Class not found!");
             }
-            var c = _context.Classes.FirstOrDefault(s => s.Id == id);
             _context.Classes.Remove(c);
-            _context.SaveChangesAsync();
-
+            await _context.SaveChangesAsync();
         }
     }
 }

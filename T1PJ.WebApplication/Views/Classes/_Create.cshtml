@@ -45,6 +45,8 @@
         // create student
         $("#btnSubmit").click(function (e) {
             var valData = $("#formCreateClass").serialize();
+            console.log($('#autoSelect2').data('value'));
+            console.log(valData)
             $.ajax({
                 url: "/Classes/Create",
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },

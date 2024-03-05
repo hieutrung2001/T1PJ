@@ -13,6 +13,6 @@ namespace T1PJ.Repository.Services.Classes
         Task<Class> GetClassById(int id);
         Task<Class> Create(Class c);
         Task<Class> Update(Class c);
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

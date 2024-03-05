@@ -5,7 +5,7 @@
 <h2>Student List</h2>
 <hr />
 <button type="button" id="createStudent" class="btn btn-primary mb-5" data-mdb-ripple-init>Create</button>
-
+@Html.AntiForgeryToken()
 <table id="studentListTable" class="table table-striped">
     <thead>
         <tr>
@@ -40,14 +40,14 @@
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary w-0">
-                        <a asp-action="Edit" asp-route-id="@item.Id" onclick="return false;" class="text-white edit-button">Edit</a>
+                        <a asp-controller="Students" asp-action="Edit" asp-route-id="@item.Id" class="text-white edit-button" onclick="return false;">Edit</a>
                     </button>
                     <button type="button" class="btn btn-info w-0">
-                        <a asp-action="Detail" asp-route-id="@item.Id" onclick="return false;" class="text-white detail-button">Detail</a>
+                        <a asp-controller="Students" asp-action="Details" asp-route-id="@item.Id" class="text-white detail-button" onclick="return false;">Detail</a>
                     </button>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-danger w-0">
-                        <a asp-action="Delete" asp-route-id="@item.Id" onclick="return false;" class="text-white delete-button">Delete</a>
+                        <a asp-controller="Students" asp-action="Delete" asp-route-id="@item.Id" class="text-white delete-button" onclick="return false;">Delete</a>
                     </button>
 
                 </td>
@@ -67,7 +67,6 @@
         </tr>
     </tfoot>
 </table>
-
 <script>
     $(document).ready(() => {
         new DataTable('#studentListTable', {
@@ -77,12 +76,11 @@
             ],
         });
 
-        console.log($('.action-button'))
-
         // form create
         $('#createStudent').on('click', () => {
             console.log('@Url.Action("Create", "Students")')
-            $('.partial').load('@Url.Action("Create", "Students")');
+            // $('.partial').load('@Url.Action("Create", "Students")');
+            window.location = "/Students/Create";
         })
 
         // form edit
@@ -136,6 +134,7 @@
                 $('.partial').load('/Students/Details/' + id);
             })
         })
+
 
         // list students
         $.each($('.list-students'), (key, val) => {
