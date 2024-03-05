@@ -10,7 +10,7 @@ namespace T1PJ.Repository.Services.Classes
     public interface IClassService
     {
         Task<List<Class>> GetAll();
-        Class GetClassById(int id);
+        Task<Class> GetClassById(int id);
         Task<Class> Create(Class c);
         Task<Class> Update(Class c);
         void Delete(int id);

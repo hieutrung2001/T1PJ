@@ -31,7 +31,7 @@
                     {
                         @foreach (var c in item.Classes)
                         {
-                            <a asp-controller="Classes" asp-action="Details" asp-route-id="@c.Id">@c.Name | </a>
+                            <a asp-controller="Students" asp-action="Search" asp-route-id="@c.Id" class="list-students" onclick="return false;">@c.Name | </a>
                         }
                     }
                 </td>
@@ -134,6 +134,14 @@
             val.addEventListener('click', () => {
                 var id = val.getAttribute('href').split('/')[3];
                 $('.partial').load('/Students/Details/' + id);
+            })
+        })
+
+        // list students
+        $.each($('.list-students'), (key, val) => {
+            val.addEventListener('click', () => {
+                var id = val.getAttribute('href').split('/')[3];
+                $('.partial').load('/Students/Search/' + id)
             })
         })
 

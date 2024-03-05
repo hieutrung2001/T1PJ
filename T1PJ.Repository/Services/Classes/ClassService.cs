@@ -27,13 +27,13 @@ namespace T1PJ.Repository.Services.Classes
             return await _context.Classes.Include(s => s.Students).OrderByDescending(c => c.Created).ToListAsync();
         }
 
-        public Class GetClassById(int id)
+        public async Task<Class> GetClassById(int id)
         {
             if (_context == null || _context.Classes == null)
             {
                 return null;
             }
-            var result = _context.Classes.Include(c => c.Students).FirstOrDefault(s => s.Id == id);
+            var result = await _context.Classes.Include(c => c.Students).FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 

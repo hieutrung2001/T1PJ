@@ -26,9 +26,15 @@ namespace T1PJ.WebApplication.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Search(int? id)
         {
-            List<Student> students = await _service.GetAll();
+            var studentsOfClass = new List<Student>();
+            var students = await _service.GetAll();
+            if (id != null)
+            {
+                var model1 = _mapper.Map<List<IndexModel>>(await _service.GetStudentsOfClass((int)id));
+                return PartialView("_Search", model1);
+            }
             var model = _mapper.Map<List<IndexModel>>(students);
             return PartialView("_Search", model);
         }
@@ -51,19 +57,19 @@ namespace T1PJ.WebApplication.Controllers
                 Student student = _mapper.Map<Student>(model);
                 if (await _service.Create(student) != null)
                 {
-                    return Json(new { status = "success" });
+                    return Json(new { status = true });
                 }
             }
             return PartialView("_Create", model);
         }
 
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
             if (_service.GetStudentById(id) == null)
             {
-                return null;
+                return Json(new { status = false });
             }
-            var result = _service.GetStudentById(id);
+            var result = await _service.GetStudentById(id);
             EditViewModel model = _mapper.Map<EditViewModel>(result);
             return PartialView("_Edit", model);
         }
@@ -78,10 +84,10 @@ namespace T1PJ.WebApplication.Controllers
                 var student = _mapper.Map<Student>(model);
                 if (await _service.Update(student) != null)
                 {
-                    return Json(new { status = "success" });
+                    return Json(new { status = true });
                 }
             }
-            return PartialView("Students\\_Edit", model);
+            return PartialView("_Edit", model);
         }
 
         [HttpDelete]
@@ -89,16 +95,16 @@ namespace T1PJ.WebApplication.Controllers
         public IActionResult Delete(int id)
         {
             _service.Delete(id);
-            return Json(new { status = "success" });
+            return Json(new { status = true });
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (_service.GetStudentById(id) == null)
+            if (await _service.GetStudentById(id) == null)
             {
-                return null;
+                return Json(new { status = false }); ;
             }
-            var result = _service.GetStudentById(id);
+            var result = await _service.GetStudentById(id);
 
             return PartialView("_Details", _mapper.Map<EditViewModel>(result));
         }

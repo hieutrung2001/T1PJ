@@ -6,14 +6,3 @@
 import { Modal, Input, Ripple, initMDB } from "mdb-ui-kit";
 
 initMDB({ Modal, Input, Ripple });
-
-function showToast(text, icon) {
-    $.toast({
-        text: text,
-        showHideTransition: 'slide',
-        icon: icon,
-        position: 'top-right',
-        allowToastClose: true,
-        stack: false,
-    })
-}

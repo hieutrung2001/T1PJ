@@ -10,7 +10,8 @@ namespace T1PJ.Repository.Services.Students
     public interface IStudentService
     {
         Task<List<Student>> GetAll();
-        Student GetStudentById(int id);
+        Task<List<Student>> GetStudentsOfClass(int classId);
+        Task<Student> GetStudentById(int id);
         Task<Student> Create(Student student);
         Task<Student> Update(Student student);
         void Delete(int id);

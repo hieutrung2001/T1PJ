@@ -57,10 +57,10 @@ namespace T1PJ.WebApplication.Controllers
                 var students = await _studentService.GetAll();
                 foreach (var item in StudentSelectList)
                 {
-                    results.Add(_studentService.GetStudentById(Int32.Parse(item)));
+                    results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
                 }
                 var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, Students = results };
-                _classService.Create(_mapper.Map<Class>(model));
+                await _classService.Create(_mapper.Map<Class>(model));
                 return Json(new { status = true });
             }
             return Json(new { status = false });
@@ -76,11 +76,11 @@ namespace T1PJ.WebApplication.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            if (_classService.GetClassById(id) == null)
+            if (await _classService.GetClassById(id) == null)
             {
-                return null;
+                return Json(new { status = false });
             }
-            var result = _classService.GetClassById(id);
+            var result = await _classService.GetClassById(id);
             List<int> ids = new List<int>();
             if (result.Students?.Count > 0)
             {
@@ -109,20 +109,20 @@ namespace T1PJ.WebApplication.Controllers
                 List<Student> results = new List<Student>();
                 foreach (var item in StudentSelectList)
                 {
-                    results.Add(_studentService.GetStudentById(Int32.Parse(item)));
+                    results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
                 }
-                var c = _classService.GetClassById(Id);
+                var c = await _classService.GetClassById(Id);
                 c.Name = Name;
                 c.Students = results;
-                _classService.Update(c);
+                await _classService.Update(c);
                 return Json(new { status = true });
             }
             return Json(new { status = false });
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var c = _classService.GetClassById(id);
+            var c = await _classService.GetClassById(id);
             return PartialView("_Details", _mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
         }
     }
