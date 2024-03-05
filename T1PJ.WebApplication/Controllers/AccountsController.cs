@@ -71,9 +71,9 @@ namespace T1PJ.WebApplication.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return Json(new { status = "success", message = "Successfully!" });
+                    return Json(new { status = true, message = "Successfully!" });
                 }
-                return Json(new { status = "error", message = "Create failed!" });
+                return Json(new { status = false, message = "Create failed!" });
             }
             return View();
         }
