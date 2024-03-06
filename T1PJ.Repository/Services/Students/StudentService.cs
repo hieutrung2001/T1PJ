@@ -62,12 +62,12 @@ namespace T1PJ.Repository.Services.Students
         public async Task<Student> Update(Student student)
         {
             
-            var result = await _context.Students.FindAsync(student.Id);
+            var result = _context.Students.Find(student.Id);
             if (result is null|| _context.Students == null)
             {
                 return null;
             }
-            result.State =  student.State;
+            _context.Students.Update(student);
             await _context.SaveChangesAsync();
             return student;
         }
