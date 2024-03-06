@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using T1PJ.DataLayer.Context;
@@ -25,7 +26,15 @@ namespace T1PJ.Repository.Services.Students
             {
                 return null;
             }
-            return await _context.Students.Include(s => s.Classes).OrderByDescending(c => c.Created).ToListAsync();
+            return await _context.Students.AsNoTracking().Select(x => new Student
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Dob = x.Dob,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address,
+                Classes = x.Classes,
+            }).ToListAsync();
         }
 
         public async Task<Student> GetStudentById(int id)
@@ -35,7 +44,8 @@ namespace T1PJ.Repository.Services.Students
                 return null;
             }
             var result = await _context.Students.FindAsync(id);
-            return result;
+            var result1 = await _context.Students.AsNoTracking().Where(x => x.Id == id).FirstAsync();
+            return result1;
         }
 
         public async Task<Student> Create(Student student)
@@ -51,11 +61,13 @@ namespace T1PJ.Repository.Services.Students
 
         public async Task<Student> Update(Student student)
         {
-            if (_context == null || _context.Students == null)
+            
+            var result = await _context.Students.FindAsync(student.Id);
+            if (result is null|| _context.Students == null)
             {
                 return null;
             }
-            _context.Students.Update(student);
+            result.State =  student.State;
             await _context.SaveChangesAsync();
             return student;
         }

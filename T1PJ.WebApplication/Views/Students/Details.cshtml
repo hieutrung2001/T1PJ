@@ -43,11 +43,12 @@
         </form>
     </div>
 </div>
-
-<script>
-    $(document).ready(() => {
-        $('#btnPrevious').on('click', () => {
-            $('.partial').load('@Url.Action("Search", "Students")');
+@section Scripts {
+    <script>
+        $(document).ready(() => {
+            $('#btnPrevious').on('click', () => {
+                window.location = '@Url.Action("Index", "Students")';
+            })
         })
-    })
-</script>
+    </script>
+}

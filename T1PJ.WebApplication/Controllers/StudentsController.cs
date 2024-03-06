@@ -21,22 +21,16 @@ namespace T1PJ.WebApplication.Controllers
             _service = service;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View();
-        }
-
-        public async Task<IActionResult> Search(int? id)
-        {
-            var studentsOfClass = new List<Student>();
             var students = await _service.GetAll();
             if (id != null)
             {
                 var model1 = _mapper.Map<List<IndexModel>>(await _service.GetStudentsOfClass((int)id));
-                return PartialView("_Search", model1);
+                return View(model1);
             }
             var model = _mapper.Map<List<IndexModel>>(students);
-            return PartialView("_Search", model);
+            return View(model);
         }
 
         public IActionResult Create()
@@ -45,7 +39,7 @@ namespace T1PJ.WebApplication.Controllers
             {
                 Dob = DateOnly.FromDateTime(DateTime.Now),
             };
-            return PartialView("_Create", model);
+            return View(model);
         }
 
         [HttpPost]
@@ -60,18 +54,18 @@ namespace T1PJ.WebApplication.Controllers
                     return Json(new { status = true });
                 }
             }
-            return PartialView("_Create", model);
+            return View(model);
         }
 
         public async Task<IActionResult> Edit(int id)
         {
-            if (_service.GetStudentById(id) == null)
+            if (await _service.GetStudentById(id) == null)
             {
                 return Json(new { status = false });
             }
             var result = await _service.GetStudentById(id);
             EditViewModel model = _mapper.Map<EditViewModel>(result);
-            return View("_Edit", model);
+            return View(model);
         }
 
         [HttpPut]
@@ -87,7 +81,7 @@ namespace T1PJ.WebApplication.Controllers
                     return Json(new { status = true });
                 }
             }
-            return PartialView("_Edit", model);
+            return View(model);
         }
 
         [HttpDelete]
@@ -109,11 +103,11 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (await _service.GetStudentById(id) == null)
             {
-                return Json(new { status = false }); ;
+                return Json(new { status = false }); 
             }
             var result = await _service.GetStudentById(id);
 
-            return PartialView("_Details", _mapper.Map<EditViewModel>(result));
+            return View(_mapper.Map<EditViewModel>(result));
         }
     }
 }

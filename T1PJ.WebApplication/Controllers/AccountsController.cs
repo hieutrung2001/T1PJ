@@ -46,7 +46,7 @@ namespace T1PJ.WebApplication.Controllers
                     }
                     else
                     {
-                        return Json(model);
+                        return RedirectToAction("Index", "Students");
                     }
                 }
             }
@@ -71,11 +71,11 @@ namespace T1PJ.WebApplication.Controllers
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, false);
-                    return Json(new { status = true, message = "Successfully!" });
+                    return RedirectToAction("Index", "Students");
                 }
-                return Json(new { status = false, message = "Create failed!" });
+                return View(model);
             }
-            return View();
+            return View(model);
         }
 
         [HttpPost]

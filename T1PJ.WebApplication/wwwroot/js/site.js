@@ -3,6 +3,23 @@
 
 // Write your JavaScript code.
 // Initialization for ES Users
-//import { Modal, Input, Ripple, initMDB } from "mdb-ui-kit";
+import { Modal, Input, Ripple, initMDB } from "mdb-ui-kit";
 
-//initMDB({ Modal, Input, Ripple });
+initMDB({ Modal, Input, Ripple });
+(() => {
+    'use strict';
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation');
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms).forEach((form) => {
+        form.addEventListener('submit', (event) => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+})();

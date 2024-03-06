@@ -33,7 +33,7 @@ namespace T1PJ.WebApplication.Controllers
         public async Task<IActionResult> Search()
         {
             var model = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(await _classService.GetAll());
-            return PartialView("_Search", model);
+            return View("_Search", model);
         }
 
         public async Task<IActionResult> Create()
@@ -44,7 +44,7 @@ namespace T1PJ.WebApplication.Controllers
                     dataValueField: nameof(Student.Id),
                     dataTextField: nameof(Student.FullName)
                 );
-            return PartialView("_Create");
+            return View("_Create");
         }
 
         [HttpPost]
@@ -104,7 +104,7 @@ namespace T1PJ.WebApplication.Controllers
 
             var model = _mapper.Map<DataLayer.Model.Classes.EditViewModel>(result);
             model.StudentSelectList = ids;
-            return PartialView("_Edit", model);
+            return View("_Edit", model);
         }
 
         [HttpPut]
@@ -130,7 +130,7 @@ namespace T1PJ.WebApplication.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var c = await _classService.GetClassById(id);
-            return PartialView("_Details", _mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
+            return View("_Details", _mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
         }
     }
 }

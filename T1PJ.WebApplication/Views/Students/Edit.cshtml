@@ -44,17 +44,15 @@
                 <button type="button" class="btn bg-secondary" id="btnPrevious" data-mdb-ripple-init>Back</button>
                 <button type="button" class="btn btn-primary" id="btnSubmit" data-mdb-ripple-init>Save</button>
             </div>
-            @* <button data-mdb-ripple-init type="button" id="btnSubmit" class="btn btn-primary btn- mb-4">Save</button>
-            *@
         </form>
     </div>
 </div>
-<script src="~/lib/mdb5/js/mdb.umd.min.js"></script>
 
-<script>
+@section Scripts {
+    <script>
     $(document).ready(() => {
         $('#btnPrevious').on('click', () => {
-            $('.partial').load('@Url.Action("Search", "Students")');
+            window.location = '@Url.Action("Index", "Students")'
         })
 
         // create student
@@ -77,8 +75,10 @@
                         position: 'top-right',
                         allowToastClose: true,
                         stack: false,
+                        beforeHide: function() {
+                            window.location = '@Url.Action("Index", "Students")';
+                        }
                     })
-                    $('.partial').load('@Url.Action("Search", "Students")')
                 },
                 error: function (error) {
                     $.toast({
@@ -95,3 +95,4 @@
         });
     })
 </script>
+}

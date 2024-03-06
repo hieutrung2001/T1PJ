@@ -24,7 +24,12 @@ namespace T1PJ.Repository.Services.Classes
             {
                 return null;
             }
-            return await _context.Classes.Include(s => s.Students).OrderByDescending(c => c.Created).ToListAsync();
+            return await _context.Classes.AsNoTracking().Select(x => new Class
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Students = x.Students,
+            }).ToListAsync();
         }
 
         public async Task<Class> GetClassById(int id)
@@ -33,7 +38,7 @@ namespace T1PJ.Repository.Services.Classes
             {
                 return null;
             }
-            var result = await _context.Classes.Include(c => c.Students).FirstOrDefaultAsync(s => s.Id == id);
+            var result = await _context.Classes.Include(c => c.Students).AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
             return result;
         }
 

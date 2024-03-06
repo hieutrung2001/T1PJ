@@ -9,21 +9,23 @@
     <div class="col-4">
         <h3 class="text-center">Login</h3>
         <hr />
-        <form method="post" id="formLogin" asp-route-returnurl="@Model?.ReturnUrl">
+        <form method="post" id="formLogin" class="needs-validation" asp-route-returnurl="@Model?.ReturnUrl" asp-action="Login" asp-controller="Accounts">
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" asp-for="UserName" class="form-control" />
                 <label class="form-label" asp-for="UserName">Username</label>
+                <span asp-validation-for="UserName"></span>
             </div>
 
             <!-- Password input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="password" asp-for="Password" class="form-control" />
                 <label class="form-label" asp-for="Password">Password</label>
+                <span asp-validation-for="Password"></span>
             </div>
 
             <!-- Submit button -->
-            <button data-mdb-ripple-init type="button" id="btnSubmit" class="btn btn-primary btn-block mb-4">Sign in</button>
+            <button data-mdb-ripple-init type="submit" id="btnSubmit" class="btn btn-primary btn-block mb-4">Sign in</button>
 
             <!-- Register buttons -->
             <div class="text-center">
