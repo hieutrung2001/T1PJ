@@ -55,8 +55,9 @@
             window.location = '@Url.Action("Index", "Students")'
         })
 
-        // create student
+        // edit student
         $("#btnSubmit").click(function (e) {
+            debugger
             var valData = $("#formEditStudent").serialize();
             $.ajax({
                 url: "/Students/Edit/" + $('#Id').val(),

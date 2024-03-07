@@ -37,15 +37,17 @@
         </form>
     </div>
 </div>
-<script src="~/lib/mdb5/js/mdb.umd.min.js"></script>
-<script>
-    $('#autoSelect2').select2()
+@section Scripts {
+    <script src="~/lib/mdb5/js/mdb.umd.min.js"></script>
+    <script>
+        $('#autoSelect2').select2()
 
-    $(document).ready(() => {
-        $('#btnPrevious').on('click', () => {
-            $('.partial').load('@Url.Action("Search", "Classes")');
+        $(document).ready(() => {
+            $('#btnPrevious').on('click', () => {
+                window.location = '@Url.Action("Index", "Classes")';
+            })
+
+
         })
-
-
-    })
-</script>
+    </script>
+}

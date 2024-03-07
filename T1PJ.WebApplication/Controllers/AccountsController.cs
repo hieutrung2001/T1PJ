@@ -3,18 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity.Identity;
 using T1PJ.DataLayer.Model.Accounts;
+using T1PJ.Repository.Services.Accounts;
 
 namespace T1PJ.WebApplication.Controllers
 {
     public class AccountsController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly IAccountService _accountService;
 
-        public AccountsController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountsController(IAccountService accountService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
+            _accountService = accountService;
         }
 
         // login
@@ -37,8 +36,7 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, false, false);
-                if (result.Succeeded)
+                if (await _accountService.Login(model))
                 {
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
@@ -65,13 +63,10 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.UserName };
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                if (await _accountService.Register(model))
                 {
-                    await _signInManager.SignInAsync(user, false);
                     return RedirectToAction("Index", "Students");
+
                 }
                 return View(model);
             }
@@ -81,7 +76,7 @@ namespace T1PJ.WebApplication.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _accountService.Logout();
             return RedirectToAction("Login");
         }
     }

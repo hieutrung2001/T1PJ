@@ -70,7 +70,7 @@ namespace T1PJ.WebApplication.Controllers
 
         [HttpPut]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditViewModel model)
+        public async Task<IActionResult> Edit(int id, EditViewModel model)
         {
             if (ModelState.IsValid)
             {

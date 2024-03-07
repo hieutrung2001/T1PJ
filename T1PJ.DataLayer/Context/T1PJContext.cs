@@ -15,14 +15,22 @@ namespace T1PJ.DataLayer.Context
             base.OnModelCreating(builder);
             builder.ApplyConfiguration(new ClassConfig());
             builder.ApplyConfiguration(new StudentConfig());
-            builder.Entity<Student>()
-                .HasMany(s => s.Classes)
-                .WithMany(c => c.Students)
-                .UsingEntity(j => j.ToTable("StudentClass"));
+            builder.ApplyConfiguration(new StudentClassConfig());
+
+            builder.Entity<StudentClass>().HasKey(sc => new
+            {
+                sc.StudentId,
+                sc.ClassId
+            });
+            builder.Entity<StudentClass>()
+                .HasOne<Student>(sc => sc.Student)
+                .WithMany(s => )
         }
 
         public DbSet<Student> Students { get; set; }
 
         public DbSet<Class> Classes { get; set; }
+
+        public DbSet
     }
 }

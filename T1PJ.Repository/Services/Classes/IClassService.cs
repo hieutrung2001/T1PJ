@@ -11,8 +11,8 @@ namespace T1PJ.Repository.Services.Classes
     {
         Task<List<Class>> GetAll();
         Task<Class> GetClassById(int id);
-        Task<Class> Create(Class c);
-        Task<Class> Update(Class c);
+        Task Create(Class c);
+        Task Update(Class c);
         Task Delete(int id);
     }
 }

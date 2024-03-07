@@ -38,30 +38,51 @@ namespace T1PJ.Repository.Services.Classes
             {
                 return null;
             }
-            var result = await _context.Classes.Include(c => c.Students).AsNoTracking().FirstOrDefaultAsync(s => s.Id == id);
+            var result = await _context.Classes.AsNoTracking().Select(x => new Class
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Students = x.Students,
+            }).FirstOrDefaultAsync(x => x.Id == id);
             return result;
         }
 
-        public async Task<Class> Create(Class c)
+        public async Task Create(Class c)
         {
             if (_context == null || _context.Classes == null)
             {
-                return null;
+                throw new Exception("Context is null!");
             }
-            _context.Classes.Add(c);
-            await _context.SaveChangesAsync();
-            return c;
+            if (c.Students == null)
+            {
+
+            }
+            try
+            {
+                _context.Classes.Add(c);
+                await _context.SaveChangesAsync();
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public async Task<Class> Update(Class c)
+        public async Task Update(Class c)
         {
             if (_context == null || _context.Classes == null)
             {
-                return null;
+                throw new Exception("Class not found!");
             }
-            _context.Classes.Update(c);
-            await _context.SaveChangesAsync();
-            return c;
+            try
+            {
+                var c1 = _context.Classes.Find(c.Id);
+                c1.Name = c.Name;
+                c1.Students = c.Students;
+                await _context.SaveChangesAsync();
+            } catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
         public async Task Delete(int id)

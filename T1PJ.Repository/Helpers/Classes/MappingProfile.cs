@@ -16,6 +16,7 @@ namespace T1PJ.Repository.Helpers.Classes
             CreateMap<Class, IndexModel>();
             CreateMap<CreateViewModel, Class>();
             CreateMap<Class, EditViewModel>();
+            CreateMap<EditViewModel, Class>(); 
         }
     }
 }

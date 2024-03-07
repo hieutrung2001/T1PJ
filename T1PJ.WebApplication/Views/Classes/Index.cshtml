@@ -1,14 +1,122 @@
-﻿@{
-    ViewData["Title"] = "Class List";
+﻿@model IEnumerable<DataLayer.Model.Classes.IndexModel>
+@{
 }
 
-<div class="partial">
-</div>
+<h2>Class List</h2>
+<hr />
+<button type="button" id="createClass" class="btn btn-primary mb-5" data-mdb-ripple-init>Create</button>
+
+<table id="classListTable" class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Students</th>
+            <th>Options</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @if (item.Students != null)
+                    {
+                        @foreach (var c in item.Students)
+                        {
+                            <a asp-controller="Students" asp-action="Details" asp-route-id="@c.Id" class="student-details" onclick="return false;">@c.FullName | </a>
+                        }
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary w-0">
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="text-white edit-button">Edit</a>
+                    </button>
+                    <button type="button" class="btn btn-info w-0">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="text-white detail-button">Detail</a>
+                    </button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-danger w-0">
+                        <a asp-action="Delete" asp-route-id="@item.Id" onclick="return false;" class="text-white delete-button">Delete</a>
+                    </button>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>Students</th>
+            <th>Options</th>
+        </tr>
+    </tfoot>
+</table>
 @section Scripts {
     <script>
         $(document).ready(() => {
-            console.log('@Url.Action("Search", "Classes")')
-            $('.partial').load('@Url.Action("Search", "Classes")');
+            new DataTable('#classListTable', {
+                lengthMenu: [
+                    [5, 10, 25, -1],
+                    [5, 10, 25, 'All']
+                ],
+            });
+
+            // form create
+            $('#createClass').on('click', () => {
+                window.location = '@Url.Action("Create", "Classes")';
+            })
+
+            // form delete
+            $.each($('.text-white.delete-button'), (key, val) => {
+                val.addEventListener('click', () => {
+                    var id = val.getAttribute('href').split('/')[3];
+                    $.ajax({
+                        url: "/Classes/Delete/" + id,
+                        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                        type: "DELETE",
+                        dataType: "JSON",
+                        success: function (data) {
+                            $.toast({
+                                heading: 'Success',
+                                text: 'Successfully!',
+                                showHideTransition: 'slide',
+                                icon: 'success',
+                                position: 'top-right',
+                                allowToastClose: true,
+                                stack: false,
+                            })
+                            $('.partial').load('@Url.Action("Search", "Classes")')
+                        },
+                        error: function (error) {
+                            $.toast({
+                                heading: 'Error',
+                                text: error,
+                                showHideTransition: 'fade',
+                                icon: 'error',
+                                position: 'top-right',
+                                allowToastClose: true,
+                                stack: false,
+                            })
+                        }
+                    });
+                })
+            })
+
+            // form details
+            $.each($('.text-white.detail-button'), (key, val) => {
+                val.addEventListener('click', () => {
+                    var id = val.getAttribute('href').split('/')[3];
+                    $('.partial').load('/Classes/Details/' + id);
+                })
+            })
+
         })
     </script>
 }

@@ -43,7 +43,6 @@ namespace T1PJ.Repository.Services.Students
             {
                 return null;
             }
-            var result = await _context.Students.FindAsync(id);
             var result1 = await _context.Students.AsNoTracking().Where(x => x.Id == id).FirstAsync();
             return result1;
         }
@@ -67,15 +66,17 @@ namespace T1PJ.Repository.Services.Students
             {
                 return null;
             }
-            _context.Students.Update(student);
+            result.FullName = student.FullName;
+            result.Address = student.Address;
+            result.PhoneNumber = student.PhoneNumber;
             await _context.SaveChangesAsync();
             return student;
         }
 
         public async Task Delete(int id)
         {
-            var student = await _context.Students.FirstOrDefaultAsync(s => s.Id == id);
-            if (_context == null || _context.Students == null)
+            var student = _context.Students.Find(id);
+            if (_context is null || _context.Students == null)
             {
                 throw new Exception("Student not found!");
             }

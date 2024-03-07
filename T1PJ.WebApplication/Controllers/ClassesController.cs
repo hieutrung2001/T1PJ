@@ -25,15 +25,10 @@ namespace T1PJ.WebApplication.Controllers
             _studentService = studentService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        public async Task<IActionResult> Search()
+        public async Task<IActionResult> Index()
         {
             var model = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(await _classService.GetAll());
-            return View("_Search", model);
+            return View(model);
         }
 
         public async Task<IActionResult> Create()
@@ -44,7 +39,7 @@ namespace T1PJ.WebApplication.Controllers
                     dataValueField: nameof(Student.Id),
                     dataTextField: nameof(Student.FullName)
                 );
-            return View("_Create");
+            return View();
         }
 
         [HttpPost]
@@ -53,17 +48,22 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Student> results = new List<Student>();
-                var students = await _studentService.GetAll();
+                var results = new List<Student>();
                 foreach (var item in StudentSelectList)
                 {
                     results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
                 }
                 var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, Students = results };
-                await _classService.Create(_mapper.Map<Class>(model));
-                return Json(new { status = true });
+                try
+                {
+                    await _classService.Create(_mapper.Map<Class>(model));
+                    return Json(new { status = true });
+                } catch (Exception ex)
+                {
+                    return Json(new {status = false, message = ex.Message});
+                }
             }
-            return Json(new { status = false });
+            return View();
         }
 
         [HttpDelete]
@@ -88,7 +88,7 @@ namespace T1PJ.WebApplication.Controllers
                 return Json(new { status = false });
             }
             var result = await _classService.GetClassById(id);
-            List<int> ids = new List<int>();
+            var ids = new List<int>();
             if (result.Students?.Count > 0)
             {
                 foreach (var item in result.Students)
@@ -104,7 +104,7 @@ namespace T1PJ.WebApplication.Controllers
 
             var model = _mapper.Map<DataLayer.Model.Classes.EditViewModel>(result);
             model.StudentSelectList = ids;
-            return View("_Edit", model);
+            return View(model);
         }
 
         [HttpPut]
@@ -118,19 +118,22 @@ namespace T1PJ.WebApplication.Controllers
                 {
                     results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
                 }
-                var c = await _classService.GetClassById(Id);
-                c.Name = Name;
-                c.Students = results;
-                await _classService.Update(c);
-                return Json(new { status = true });
+                try
+                {
+                    await _classService.Update(_mapper.Map<Class>(new DataLayer.Model.Classes.EditViewModel { Id = Id, Name = Name, Students = results}));
+                    return Json(new { status = true });
+                } catch (Exception ex)
+                {
+                    return Json(new { status = false, message =  ex.Message });
+                }
             }
-            return Json(new { status = false });
+            return View();
         }
 
         public async Task<IActionResult> Details(int id)
         {
             var c = await _classService.GetClassById(id);
-            return View("_Details", _mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
+            return View(_mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
         }
     }
 }

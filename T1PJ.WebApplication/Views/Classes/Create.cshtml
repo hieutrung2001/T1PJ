@@ -1,16 +1,15 @@
-﻿@model DataLayer.Model.Classes.EditViewModel
+﻿@model DataLayer.Model.Classes.CreateViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 @Html.AntiForgeryToken()
 <div class="row d-flex justify-content-center mt-lg-5">
     <div class="col-4">
-        <h3 class="text-center">Edit Class</h3>
+        <h3 class="text-center">Add New Class</h3>
         <hr />
-        <form method="post" id="formEditClass">
-            <input type="hidden" asp-for="Id" />
+        <form method="post" id="formCreateClass">
             <!-- Fullname input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" asp-for="Name" class="form-control" />
@@ -29,27 +28,27 @@
                 <button type="button" class="btn btn-primary" id="btnSubmit" data-mdb-ripple-init>Save</button>
             </div>
             @* <button data-mdb-ripple-init type="button" id="btnSubmit" class="btn btn-primary btn- mb-4">Save</button>
-            *@
+ *@
         </form>
     </div>
 </div>
 <script src="~/lib/mdb5/js/mdb.umd.min.js"></script>
-
-<script>
+@section Scripts {
+    <script>
     $(document).ready(() => {
-        $('#autoSelect2').select2();
+        $('#autoSelect2').select2()
 
         $('#btnPrevious').on('click', () => {
-            $('.partial').load('@Url.Action("Search", "Classes")');
+            window.location = '@Url.Action("Index", "Classes")';
         })
 
         // create student
         $("#btnSubmit").click(function (e) {
-            var valData = $("#formEditClass").serialize();
+            var valData = $("#formCreateClass").serialize();
             $.ajax({
-                url: "/Classes/Edit/" + $('#Id').val(),
+                url: "/Classes/Create",
                 headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
-                type: "PUT",
+                type: "POST",
                 contentType: "application/x-www-form-urlencoded;charset=utf-8",
                 dataType: "JSON",
                 data: valData,
@@ -63,8 +62,10 @@
                         position: 'top-right',
                         allowToastClose: true,
                         stack: false,
+                        beforeHide: function () {
+                            window.location = '@Url.Action("Index", "Classes")';
+                        }
                     })
-                    $('.partial').load('@Url.Action("Search", "CLasses")')
                 },
                 error: function (error) {
                     $.toast({
@@ -81,3 +82,5 @@
         });
     })
 </script>
+}
+

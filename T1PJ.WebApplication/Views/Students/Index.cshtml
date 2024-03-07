@@ -69,7 +69,6 @@
     </tfoot>
 </table>
 @section Scripts {
-
     <script>
         $(document).ready(() => {
             new DataTable('#studentListTable', {
@@ -78,14 +77,13 @@
                     [5, 10, 25, 'All']
                 ],
             });
-
-            $('#createStudent').on('click', () => {
-                console.log('abc')
+            $('#createStudent').click(() => {
                 window.location = '@Url.Action("Create", "Students")';
             })
 
             // delete
             $.each($('.text-white.delete-button'), (key, val) => {
+                console.log(val)
                 val.addEventListener('click', () => {
                     var id = val.getAttribute('href').split('/')[3];
                     $.ajax({
@@ -102,7 +100,9 @@
                                 position: 'top-right',
                                 allowToastClose: true,
                                 stack: false,
-                                window.location = '@Url.Action("Index", "Students")'
+                                beforeHide: function () {
+                                    window.location = '@Url.Action("Index", "Students")'
+                                }
                             })
                         },
                         error: function (error) {
