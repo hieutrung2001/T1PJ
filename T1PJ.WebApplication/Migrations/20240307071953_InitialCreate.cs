@@ -195,21 +195,21 @@ namespace T1PJ.WebApplication.Migrations
                 name: "StudentClass",
                 columns: table => new
                 {
-                    ClassesId = table.Column<int>(type: "int", nullable: false),
-                    StudentsId = table.Column<int>(type: "int", nullable: false)
+                    StudentId = table.Column<int>(type: "int", nullable: false),
+                    ClassId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_StudentClass", x => new { x.ClassesId, x.StudentsId });
+                    table.PrimaryKey("PK_StudentClass", x => new { x.StudentId, x.ClassId });
                     table.ForeignKey(
-                        name: "FK_StudentClass_Class_ClassesId",
-                        column: x => x.ClassesId,
+                        name: "FK_StudentClass_Class_ClassId",
+                        column: x => x.ClassId,
                         principalTable: "Class",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_StudentClass_Student_StudentsId",
-                        column: x => x.StudentsId,
+                        name: "FK_StudentClass_Student_StudentId",
+                        column: x => x.StudentId,
                         principalTable: "Student",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -255,9 +255,9 @@ namespace T1PJ.WebApplication.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StudentClass_StudentsId",
+                name: "IX_StudentClass_ClassId",
                 table: "StudentClass",
-                column: "StudentsId");
+                column: "ClassId");
         }
 
         /// <inheritdoc />

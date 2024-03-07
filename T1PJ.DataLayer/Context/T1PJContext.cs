@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection.Emit;
 using T1PJ.DataLayer.Config;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Entity.Identity;
@@ -24,13 +25,20 @@ namespace T1PJ.DataLayer.Context
             });
             builder.Entity<StudentClass>()
                 .HasOne<Student>(sc => sc.Student)
-                .WithMany(s => )
+                .WithMany(s => s.StudentClasses)
+                .HasForeignKey(sc => sc.StudentId);
+
+
+            builder.Entity<StudentClass>()
+                .HasOne<Class>(sc => sc.Class)
+                .WithMany(s => s.StudentClasses)
+                .HasForeignKey(sc => sc.ClassId);
         }
 
         public DbSet<Student> Students { get; set; }
 
         public DbSet<Class> Classes { get; set; }
 
-        public DbSet
+        public DbSet<StudentClass> StudentClasses { get; set; }
     }
 }

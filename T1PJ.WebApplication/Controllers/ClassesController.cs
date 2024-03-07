@@ -48,12 +48,15 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                var results = new List<Student>();
-                foreach (var item in StudentSelectList)
+                var results = new List<StudentClass>();
+                if (StudentSelectList.Count > 0)
                 {
-                    results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
+                    foreach (var item in StudentSelectList)
+                    {
+                        results.Add(new StudentClass { StudentId = Int32.Parse(item) });
+                    }
                 }
-                var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, Students = results };
+                var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, StudentClasses = results };
                 try
                 {
                     await _classService.Create(_mapper.Map<Class>(model));
@@ -89,11 +92,11 @@ namespace T1PJ.WebApplication.Controllers
             }
             var result = await _classService.GetClassById(id);
             var ids = new List<int>();
-            if (result.Students?.Count > 0)
+            if (result.StudentClasses?.Count > 0)
             {
-                foreach (var item in result.Students)
+                foreach (var item in result.StudentClasses)
                 {
-                    ids.Add(item.Id);
+                    ids.Add(item.StudentId);
                 }
             }
             ViewBag.StudentSelectList = new SelectList(
@@ -113,14 +116,14 @@ namespace T1PJ.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Student> results = new List<Student>();
+                var results = new List<StudentClass>();
                 foreach (var item in StudentSelectList)
                 {
-                    results.Add(await _studentService.GetStudentById(Int32.Parse(item)));
+                    results.Add(new StudentClass { StudentId = Int32.Parse(item), ClassId = Id });
                 }
                 try
                 {
-                    await _classService.Update(_mapper.Map<Class>(new DataLayer.Model.Classes.EditViewModel { Id = Id, Name = Name, Students = results}));
+                    await _classService.Update(_mapper.Map<Class>(new DataLayer.Model.Classes.EditViewModel { Id = Id, Name = Name, StudentClasses = results}));
                     return Json(new { status = true });
                 } catch (Exception ex)
                 {

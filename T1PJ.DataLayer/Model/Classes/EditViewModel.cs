@@ -13,7 +13,7 @@ namespace T1PJ.DataLayer.Model.Classes
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public List<Student> Students { get; set; }
+        public List<StudentClass> StudentClasses { get; set; }
         public List<int> StudentSelectList { get; set; }
         public DateTime LastUpdated { get; set; }
 

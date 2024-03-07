@@ -22,21 +22,6 @@ namespace T1PJ.WebApplication.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ClassStudent", b =>
-                {
-                    b.Property<int>("ClassesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StudentsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClassesId", "StudentsId");
-
-                    b.HasIndex("StudentsId");
-
-                    b.ToTable("StudentClass", (string)null);
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -297,19 +282,19 @@ namespace T1PJ.WebApplication.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
-            modelBuilder.Entity("ClassStudent", b =>
+            modelBuilder.Entity("T1PJ.DataLayer.Entity.StudentClass", b =>
                 {
-                    b.HasOne("T1PJ.DataLayer.Entity.Class", null)
-                        .WithMany()
-                        .HasForeignKey("ClassesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("StudentId")
+                        .HasColumnType("int");
 
-                    b.HasOne("T1PJ.DataLayer.Entity.Student", null)
-                        .WithMany()
-                        .HasForeignKey("StudentsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ClassId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StudentId", "ClassId");
+
+                    b.HasIndex("ClassId");
+
+                    b.ToTable("StudentClass", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -361,6 +346,35 @@ namespace T1PJ.WebApplication.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("T1PJ.DataLayer.Entity.StudentClass", b =>
+                {
+                    b.HasOne("T1PJ.DataLayer.Entity.Class", "Class")
+                        .WithMany("StudentClasses")
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("T1PJ.DataLayer.Entity.Student", "Student")
+                        .WithMany("StudentClasses")
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
+
+                    b.Navigation("Student");
+                });
+
+            modelBuilder.Entity("T1PJ.DataLayer.Entity.Class", b =>
+                {
+                    b.Navigation("StudentClasses");
+                });
+
+            modelBuilder.Entity("T1PJ.DataLayer.Entity.Student", b =>
+                {
+                    b.Navigation("StudentClasses");
                 });
 #pragma warning restore 612, 618
         }

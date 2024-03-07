@@ -28,11 +28,11 @@
                     @Html.DisplayFor(modelItem => item.FullName)
                 </td>
                 <td>
-                    @if (item.Classes != null)
+                    @if (item.StudentClasses != null)
                     {
-                        @foreach (var c in item.Classes)
+                        @foreach (var c in item.StudentClasses)
                         {
-                            <a asp-controller="Students" asp-action="Search" asp-route-id="@c.Id" class="list-students" onclick="return false;">@c.Name | </a>
+                            <a asp-controller="Students" asp-action="Index" asp-route-id="@c.ClassId" class="list-students" onclick="return false;">@c.Class?.Name | </a>
                         }
                     }
                 </td>
@@ -76,6 +76,10 @@
                     [5, 10, 25, -1],
                     [5, 10, 25, 'All']
                 ],
+                serverSide: true,
+                ajax: {
+                    url: '/Students/Index'
+                }
             });
             $('#createStudent').click(() => {
                 window.location = '@Url.Action("Create", "Students")';

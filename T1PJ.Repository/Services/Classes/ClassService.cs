@@ -28,7 +28,7 @@ namespace T1PJ.Repository.Services.Classes
             {
                 Id = x.Id,
                 Name = x.Name,
-                Students = x.Students,
+                StudentClasses = x.StudentClasses,
             }).ToListAsync();
         }
 
@@ -42,7 +42,7 @@ namespace T1PJ.Repository.Services.Classes
             {
                 Id = x.Id,
                 Name = x.Name,
-                Students = x.Students,
+                StudentClasses = x.StudentClasses,
             }).FirstOrDefaultAsync(x => x.Id == id);
             return result;
         }
@@ -53,18 +53,17 @@ namespace T1PJ.Repository.Services.Classes
             {
                 throw new Exception("Context is null!");
             }
-            if (c.Students == null)
+            if (c.StudentClasses?.Count == 0)
             {
-
+                throw new Exception("Classes not found!");
             }
-            try
+            _context.Classes.Add(c);
+            await _context.SaveChangesAsync();
+            foreach (var item in c.StudentClasses)
             {
-                _context.Classes.Add(c);
-                await _context.SaveChangesAsync();
-            } catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
+                _context.StudentClasses.Add(new StudentClass { ClassId = c.Id, StudentId = item.StudentId });
             }
+            await _context.SaveChangesAsync();
         }
 
         public async Task Update(Class c)
@@ -73,16 +72,47 @@ namespace T1PJ.Repository.Services.Classes
             {
                 throw new Exception("Class not found!");
             }
-            try
+            var c1 = _context.Classes.Select(x => new Class
             {
-                var c1 = _context.Classes.Find(c.Id);
-                c1.Name = c.Name;
-                c1.Students = c.Students;
-                await _context.SaveChangesAsync();
-            } catch (Exception ex)
+                Id = x.Id,
+                StudentClasses = x.StudentClasses,
+            }).FirstOrDefault(s => s.Id == c.Id);
+            c1.Name = c.Name;
+            if (c1.StudentClasses.Count > 0)
             {
-                throw new Exception(ex.Message);
+                var results = c.StudentClasses;
+                List<bool> checks = new List<bool>(results.Count);
+                //for (var i = 0; i < checks.Count; ++i)
+                //{
+                //    checks[i] = false;
+                //}
+                checks.AddRange(Enumerable.Repeat(false, results.Count));
+                var j = 0;
+                foreach (var item in c1.StudentClasses)
+                {
+                    if (c.StudentClasses.Contains(item))
+                    {
+                        checks[j++] = true;
+                        continue;
+                    }
+                    else
+                    {
+                        _context.StudentClasses.Remove(item);
+                        
+                    }
+                }
+                for (var i = 0; i < c.StudentClasses.Count; ++i)
+                {
+                    if (!checks[i])
+                    {
+                        var studentClass = new StudentClass { ClassId = c.Id, StudentId = c.StudentClasses[i].StudentId };
+                        c1.StudentClasses.Add(studentClass);
+                        _context.StudentClasses.Add(studentClass);
+                    }
+                }
+                _context.Classes.Update(c1);
             }
+            await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)

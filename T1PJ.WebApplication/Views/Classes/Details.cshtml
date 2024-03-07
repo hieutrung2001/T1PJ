@@ -19,13 +19,13 @@
 
             <label>Selected</label>
             <div class="mb-3">
-                @if (Model.Students?.Count > 0)
+                @* @if (Model.StudentClassses.Count > 0)
                 {
                     foreach (var item in Model.Students)
                     {
                         <a asp-action="Details" asp-controller="Students" asp-route-id="@item.Id" onclick="return false;">@item.FullName | </a>    
                     }
-                }
+                } *@
              </div>
 
             <!-- Submit button -->

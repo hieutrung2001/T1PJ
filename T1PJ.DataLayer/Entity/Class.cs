@@ -10,6 +10,6 @@ namespace T1PJ.DataLayer.Entity
     {
         public string Name { get; set; }
         
-        public List<StudentClass> Students { get; set; }
+        public IList<StudentClass> StudentClasses { get; set; }
     }
 }

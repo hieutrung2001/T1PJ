@@ -24,11 +24,11 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    @if (item.Students != null)
+                    @if (item.StudentClasses != null)
                     {
-                        @foreach (var c in item.Students)
+                        @foreach (var c in item.StudentClasses)
                         {
-                            <a asp-controller="Students" asp-action="Details" asp-route-id="@c.Id" class="student-details" onclick="return false;">@c.FullName | </a>
+                            <a asp-controller="Students" asp-action="Details" asp-route-id="@c.StudentId" class="student-details" onclick="return false;">@c.Student?.FullName | </a>
                         }
                     }
                 </td>
@@ -91,8 +91,10 @@
                                 position: 'top-right',
                                 allowToastClose: true,
                                 stack: false,
+                                beforeHide: function () {
+                                    window.location = '@Url.Action("Index", "Classes")'
+                                }
                             })
-                            $('.partial').load('@Url.Action("Search", "Classes")')
                         },
                         error: function (error) {
                             $.toast({

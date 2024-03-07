@@ -33,7 +33,7 @@ namespace T1PJ.Repository.Services.Students
                 Dob = x.Dob,
                 PhoneNumber = x.PhoneNumber,
                 Address = x.Address,
-                Classes = x.Classes,
+                StudentClasses = x.StudentClasses,
             }).ToListAsync();
         }
 
@@ -101,11 +101,11 @@ namespace T1PJ.Repository.Services.Students
             {
                 foreach (var item in students)
                 {
-                    if (item.Classes?.Count > 0)
+                    if (item.StudentClasses?.Count > 0)
                     {
-                        foreach (var y in item.Classes)
+                        foreach (var y in item.StudentClasses)
                         {
-                            if (y.Id == classId)
+                            if (y.ClassId == classId)
                             {
                                 studentsOfClass.Add(item);
                                 break;
