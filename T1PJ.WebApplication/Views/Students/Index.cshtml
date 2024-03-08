@@ -13,14 +13,14 @@
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
-            <th>Class</th>
+            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
             <th>Options</th>
         </tr>
     </thead>
-    <tbody>
+    @* <tbody>
         @foreach (var item in Model)
         {
             <tr>
@@ -54,19 +54,7 @@
                 </td>
             </tr>
         }
-    </tbody>
-    <tfoot>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FullName)
-            </th>
-            <th>Class</th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th>Options</th>
-        </tr>
-    </tfoot>
+    </tbody> *@
 </table>
 @section Scripts {
     <script>
@@ -76,15 +64,32 @@
             var result = {}
 
             new DataTable('#studentListTable', {
-                // lengthMenu: [
-                //     [5, 10, 25, -1],
-                //     [5, 10, 25, 'All']
-                // ],
+                lengthMenu: [
+                    [5, 10, 25, -1],
+                    [5, 10, 25, 'All']
+                ],
                 serverSide: true,
+                processing: true,
                 ajax: {
-                    url: '/Students/data-source',
+                    url: '@Url.Action("LoadTable", "Students")',
                     type: 'POST',
-                }
+                    headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                    dataType: 'JSON',
+                },
+                columns: [
+                    {
+                        data: "fullName",
+                        name: "FullName"
+                    },
+                    { data: "phoneNumber", name: "PhoneNumber" },
+                    { data: "address", name: "Address" },
+                    {
+                        data: "id",
+                        render: function (id, type, row, meta) {
+                            return `<button type="button" class="btn btn-danger w-0"><a href="/Students/Delete/${id}" class="text-white delete-button" onclick = "return false;">Delete</a></button>`;
+                        }
+                    },
+                ],
             });
 
             // create student

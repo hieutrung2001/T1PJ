@@ -7,6 +7,7 @@ using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
 using T1PJ.Repository.Services.Students;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace T1PJ.WebApplication.Controllers
 {
@@ -111,13 +112,29 @@ namespace T1PJ.WebApplication.Controllers
             return View(_mapper.Map<EditViewModel>(result));
         }
 
-        [HttpPost("/Students/data-source")]
-        public JsonResult GetFilteredItems(Pagination<IndexModel> model)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> LoadTable(Pagination<IndexModel> model)
         {
-            int draw = model.Draw;
-            int start = model.Start;
-            int length = model.Length;
-            string searchValue = model.Search;
+            var results = await _service.GetAll();
+            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
+            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
+            int recordsTotal = 0;
+            var customerData = _mapper.Map<List<IndexModel>>(results);
+            //if (!(string.isnullorempty(sortcolumn) && string.isnullorempty(sortcolumndirection)))
+            //{
+            //    customerdata = customerdata.orderby(sortcolumn + " " + sortcolumndirection);
+            //}
+            if (!string.IsNullOrEmpty(model.Search.Value))
+            {
+                customerData = customerData.Where(m => m.FullName.Contains(model.Search.Value)
+                                            || m.Address.Contains(model.Search.Value)).ToList();
+            }
+            recordsTotal = customerData.Count();
+            var data = customerData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = model.Draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return Json(jsonData);
+
         }
     }
 }
