@@ -71,16 +71,23 @@
 @section Scripts {
     <script>
         $(document).ready(() => {
+
+
+            var result = {}
+
             new DataTable('#studentListTable', {
-                lengthMenu: [
-                    [5, 10, 25, -1],
-                    [5, 10, 25, 'All']
-                ],
+                // lengthMenu: [
+                //     [5, 10, 25, -1],
+                //     [5, 10, 25, 'All']
+                // ],
                 serverSide: true,
                 ajax: {
-                    url: '/Students/Index'
+                    url: '/Students/data-source',
+                    type: 'POST',
                 }
             });
+
+            // create student
             $('#createStudent').click(() => {
                 window.location = '@Url.Action("Create", "Students")';
             })

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Runtime.Serialization;
 using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity;
+using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
 using T1PJ.Repository.Services.Students;
 
@@ -108,6 +109,15 @@ namespace T1PJ.WebApplication.Controllers
             var result = await _service.GetStudentById(id);
 
             return View(_mapper.Map<EditViewModel>(result));
+        }
+
+        [HttpPost("/Students/data-source")]
+        public JsonResult GetFilteredItems(Pagination<IndexModel> model)
+        {
+            int draw = model.Draw;
+            int start = model.Start;
+            int length = model.Length;
+            string searchValue = model.Search;
         }
     }
 }
