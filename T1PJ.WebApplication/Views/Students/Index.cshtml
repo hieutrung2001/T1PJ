@@ -20,49 +20,10 @@
             <th>Options</th>
         </tr>
     </thead>
-    @* <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @if (item.StudentClasses != null)
-                    {
-                        @foreach (var c in item.StudentClasses)
-                        {
-                            <a asp-controller="Students" asp-action="Index" asp-route-id="@c.ClassId" class="list-students" onclick="return false;">@c.Class?.Name | </a>
-                        }
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    <button type="button" class="btn btn-primary w-0">
-                        <a asp-controller="Students" asp-action="Edit" asp-route-id="@item.Id" class="text-white edit-button">Edit</a>
-                    </button>
-                    <button type="button" class="btn btn-info w-0">
-                        <a asp-controller="Students" asp-action="Details" asp-route-id="@item.Id" class="text-white detail-button">Detail</a>
-                    </button>
-                    <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-danger w-0">
-                        <a asp-controller="Students" asp-action="Delete" asp-route-id="@item.Id" class="text-white delete-button" onclick="return false;">Delete</a>
-                    </button>
-
-                </td>
-            </tr>
-        }
-    </tbody> *@
 </table>
 @section Scripts {
     <script>
         $(document).ready(() => {
-
-
-            var result = {}
-
             new DataTable('#studentListTable', {
                 lengthMenu: [
                     [5, 10, 25, -1],
@@ -86,7 +47,13 @@
                     {
                         data: "id",
                         render: function (id, type, row, meta) {
-                            return `<button type="button" class="btn btn-danger w-0"><a href="/Students/Delete/${id}" class="text-white delete-button" onclick = "return false;">Delete</a></button>`;
+                            return `<button type="button" class="btn btn-primary w-0">
+                                        <a href="/Students/Edit/${id}" class="text-white edit-button">Edit</a>
+                            </button>
+                                    <button type="button" class="btn btn-info w-0">
+                                        <a href="/Students/Details/${id}" class="text-white detail-button">Detail</a>
+                            </button>
+                                    <button type="button" onclick="DeleteStudent(this)" class="btn btn-danger w-0 delete-button" data-url="/Students/Delete/${id}"><a class="text-white">Delete</a></button>`;
                         }
                     },
                 ],
@@ -97,45 +64,42 @@
                 window.location = '@Url.Action("Create", "Students")';
             })
 
-            // delete
-            $.each($('.text-white.delete-button'), (key, val) => {
-                console.log(val)
-                val.addEventListener('click', () => {
-                    var id = val.getAttribute('href').split('/')[3];
-                    $.ajax({
-                        url: "/Students/Delete/" + id,
-                        headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
-                        type: "DELETE",
-                        dataType: "JSON",
-                        success: function (data) {
-                            $.toast({
-                                heading: 'Success',
-                                text: 'Successfully!',
-                                showHideTransition: 'slide',
-                                icon: 'success',
-                                position: 'top-right',
-                                allowToastClose: true,
-                                stack: false,
-                                beforeHide: function () {
-                                    window.location = '@Url.Action("Index", "Students")'
-                                }
-                            })
-                        },
-                        error: function (error) {
-                            $.toast({
-                                heading: 'Error',
-                                text: error,
-                                showHideTransition: 'fade',
-                                icon: 'error',
-                                position: 'top-right',
-                                allowToastClose: true,
-                                stack: false,
-                            })
-                        }
-                    });
-                })
-            })
+         
 
         })
+        function DeleteStudent(e) {
+            let url = $(e).data('url');
+            $.ajax({
+                url: url,
+                headers: { "RequestVerificationToken": $('input[name="__RequestVerificationToken"]').val() },
+                type: "DELETE",
+                dataType: "JSON",
+                success: function (data) {
+                    $.toast({
+                        heading: 'Success',
+                        text: 'Successfully!',
+                        showHideTransition: 'slide',
+                        icon: 'success',
+                        position: 'top-right',
+                        allowToastClose: true,
+                        stack: false,
+                        beforeHide: function () {
+                            window.location = '@Url.Action("Index", "Students")'
+                        }
+                    })
+                },
+                error: function (error) {
+                    $.toast({
+                        heading: 'Error',
+                        text: error,
+                        showHideTransition: 'fade',
+                        icon: 'error',
+                        position: 'top-right',
+                        allowToastClose: true,
+                        stack: false,
+                    })
+                }
+            });
+        }
     </script>
 }

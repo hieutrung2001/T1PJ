@@ -53,17 +53,18 @@ namespace T1PJ.Repository.Services.Classes
             {
                 throw new Exception("Context is null!");
             }
-            if (c.StudentClasses?.Count == 0)
-            {
-                throw new Exception("Classes not found!");
-            }
             _context.Classes.Add(c);
             await _context.SaveChangesAsync();
-            foreach (var item in c.StudentClasses)
+            if (c.StudentClasses?.Count > 0)
             {
-                _context.StudentClasses.Add(new StudentClass { ClassId = c.Id, StudentId = item.StudentId });
+                foreach (var item in c.StudentClasses)
+                {
+                    item.ClassId = c.Id;
+                    _context.StudentClasses.Add(new StudentClass { ClassId = c.Id, StudentId = item.StudentId });
+                }
+                _context.Classes.Update(c);
+                await _context.SaveChangesAsync();
             }
-            await _context.SaveChangesAsync();
         }
 
         public async Task Update(Class c)
@@ -82,10 +83,6 @@ namespace T1PJ.Repository.Services.Classes
             {
                 var results = c.StudentClasses;
                 List<bool> checks = new List<bool>(results.Count);
-                //for (var i = 0; i < checks.Count; ++i)
-                //{
-                //    checks[i] = false;
-                //}
                 checks.AddRange(Enumerable.Repeat(false, results.Count));
                 var j = 0;
                 foreach (var item in c1.StudentClasses)
@@ -117,7 +114,7 @@ namespace T1PJ.Repository.Services.Classes
 
         public async Task Delete(int id)
         {
-            var c = _context.Classes.FirstOrDefault(s => s.Id == id);
+            var c = _context.Classes.Find(id);
             if (_context == null || _context.Classes == null)
             {
                 throw new Exception("Class not found!");

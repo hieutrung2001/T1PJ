@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Classes;
+using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
 using T1PJ.Repository.Services.Classes;
 using T1PJ.Repository.Services.Students;
@@ -57,9 +58,10 @@ namespace T1PJ.WebApplication.Controllers
                     }
                 }
                 var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, StudentClasses = results };
+                var c = _mapper.Map<Class>(model);
                 try
                 {
-                    await _classService.Create(_mapper.Map<Class>(model));
+                    await _classService.Create(c);
                     return Json(new { status = true });
                 } catch (Exception ex)
                 {
@@ -137,6 +139,22 @@ namespace T1PJ.WebApplication.Controllers
         {
             var c = await _classService.GetClassById(id);
             return View(_mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> LoadTable(Pagination<DataLayer.Model.Classes.IndexModel> model)
+        {
+            var results = await _classService.GetAll();
+            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
+            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
+            int recordsTotal = 0;
+            var customerData = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(results);
+            recordsTotal = customerData.Count();
+            var data = customerData.Skip(skip).Take(pageSize).ToList();
+            var jsonData = new { draw = model.Draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            return Json(jsonData);
+
         }
     }
 }
