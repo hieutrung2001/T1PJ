@@ -9,9 +9,9 @@ namespace T1PJ.DataLayer.Model.Accounts
 {
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "Please enter your username")]
         public string UserName { get; set; }
-        [Required, DataType(DataType.Password)]
+        [Required(ErrorMessage = "Please enter your password"), DataType(DataType.Password)]
         public string Password { get; set; }
         public string? ReturnUrl { get; set; }
     }

@@ -13,7 +13,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
-            <th>@Html.DisplayNameFor(model => model.PhoneNumber)</th>
+            <th>@Html.DisplayNameFor(model => model.StudentClasses)</th>
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
@@ -42,7 +42,10 @@
                         data: "fullName",
                         name: "FullName"
                     },
-                    { data: "phoneNumber", name: "PhoneNumber" },
+                    {
+                        data: "studentClasses",
+                        name: "StudentClasses"
+                    },
                     { data: "address", name: "Address" },
                     {
                         data: "id",

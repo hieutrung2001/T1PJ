@@ -10,6 +10,10 @@
         <h3 class="text-center">Login</h3>
         <hr />
         <form method="post" id="formLogin" class="needs-validation" asp-route-returnurl="@Model?.ReturnUrl" asp-action="Login" asp-controller="Accounts">
+            <div asp-validation-summary="ModelOnly">
+                <span>Please correct the following errors</span>
+            </div>
+
             <!-- Email input -->
             <div data-mdb-input-init class="form-outline mb-4">
                 <input type="text" asp-for="UserName" class="form-control" />
