@@ -10,7 +10,7 @@ using T1PJ.DataLayer.Model.Students;
 
 namespace T1PJ.DataLayer.Model.Paginations
 {
-    public class Pagination<T> where T : class
+    public class Pagination
     {
         public int Draw { get; set; }
         public int Start { get; set; }

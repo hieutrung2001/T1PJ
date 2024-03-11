@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Azure;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,18 +8,25 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Helpers;
+using System.Web.Mvc;
 using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity;
+using T1PJ.DataLayer.Model.Paginations;
+using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Model.Students;
 
 namespace T1PJ.Repository.Services.Students
 {
     public class StudentService : IStudentService
     {
         private readonly T1PJContext _context;
+        private readonly IMapper _mapper;
 
-        public StudentService(T1PJContext context)
+        public StudentService(T1PJContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<List<Student>> GetAll()
@@ -35,6 +44,47 @@ namespace T1PJ.Repository.Services.Students
                 Address = x.Address,
                 StudentClasses = x.StudentClasses,
             }).ToListAsync();
+        }
+
+        public async Task<JsonData> LoadTable(Pagination model)
+        {
+            if (_context == null || _context.Students == null)
+            {
+                return null;
+            }
+
+            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
+            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
+            int recordsTotal = _context.Students.ToList().Count();
+            int recordsFiltered = recordsTotal;
+            var results = await _context.Students.AsNoTracking().Select(x => new IndexModel
+            {
+                Id = x.Id,
+                FullName = x.FullName,
+                Dob = x.Dob,
+                PhoneNumber = x.PhoneNumber,
+                Address = x.Address,
+                StudentClasses = x.StudentClasses,
+            }).Take(pageSize).Skip(model.Start).ToListAsync();
+            if (model.Order != null)
+            {
+                if (model.Order[0].Dir == "asc")
+                {
+                    results = results.OrderBy(data => data.FullName).ToList();
+                }
+                else
+                {
+                    results = results.OrderByDescending(data => data.FullName).ToList();
+                }
+            }
+            if (!string.IsNullOrEmpty(model.Search.Value))
+            {
+                results = results.Where(m => m.FullName.ToLower().Contains(model.Search.Value.ToLower())
+                                            || m.Address.ToLower().Contains(model.Search.Value.ToLower())).ToList();
+                recordsFiltered = results.Count();
+            }
+            
+            return new JsonData { Draw = model.Draw, RecordsFiltered = recordsFiltered, RecordsTotal = recordsTotal, Data = results };
         }
 
         public async Task<Student> GetStudentById(int id)

@@ -113,31 +113,10 @@ namespace T1PJ.WebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> LoadTable(Pagination<IndexModel> model)
+        public async Task<JsonResult> LoadTable(Pagination model)
         {
-            var results = await _service.GetAll();
-            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
-            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
-            int recordsTotal = 0;
-            var data = _mapper.Map<List<IndexModel>>(results);
-            if (model.Order != null)
-            {
-                if (model.Order[0].Dir == "asc")
-                {
-                    data = data.OrderBy(data => data.FullName).ToList();
-                } else
-                {
-                    data = data.OrderByDescending(data => data.FullName).ToList();
-                }
-            }
-            if (!string.IsNullOrEmpty(model.Search.Value))
-            {
-                data = data.Where(m => m.FullName.ToLower().Contains(model.Search.Value.ToLower())
-                                            || m.Address.ToLower().Contains(model.Search.Value.ToLower())).ToList();
-            }
-            recordsTotal = data.Count;
-            data = data.Skip(skip).Take(pageSize).ToList();
-            var jsonData = new { draw = model.Draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            var result = await _service.LoadTable(model);
+            var jsonData = new { draw = result.Draw, recordsFiltered = result.RecordsFiltered, recordsTotal = result.RecordsTotal, data = result.Data };
             return Json(jsonData);
 
         }

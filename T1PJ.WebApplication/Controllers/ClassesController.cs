@@ -143,7 +143,7 @@ namespace T1PJ.WebApplication.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<JsonResult> LoadTable(Pagination<DataLayer.Model.Classes.IndexModel> model)
+        public async Task<JsonResult> LoadTable(Pagination model)
         {
             var results = await _classService.GetAll();
             int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
