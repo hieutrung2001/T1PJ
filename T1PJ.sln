@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Repository", "T1PJ.Repository\T1PJ.Repository.csproj", "{874BB475-18C3-4315-9B1A-021DC357972B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Core", "T1PJ.Repository\T1PJ.Core.csproj", "{874BB475-18C3-4315-9B1A-021DC357972B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.DataLayer", "T1PJ.DataLayer\T1PJ.DataLayer.csproj", "{A4157227-EC9B-427D-A59F-E18DB0FE19E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Domain", "T1PJ.DataLayer\T1PJ.Domain.csproj", "{A4157227-EC9B-427D-A59F-E18DB0FE19E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Model", "T1PJ.Model\T1PJ.Model.csproj", "{F73ED64C-7DF7-41DE-A670-D9CA6130EF08}"
 EndProject

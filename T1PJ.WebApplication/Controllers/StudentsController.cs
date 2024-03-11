@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.Serialization;
-using T1PJ.DataLayer.Context;
+using System.Linq;
+using System.Linq.Dynamic.Core;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
 using T1PJ.Repository.Services.Students;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace T1PJ.WebApplication.Controllers
 {
@@ -120,18 +119,24 @@ namespace T1PJ.WebApplication.Controllers
             int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
             int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
             int recordsTotal = 0;
-            var customerData = _mapper.Map<List<IndexModel>>(results);
-            //if (!(string.isnullorempty(sortcolumn) && string.isnullorempty(sortcolumndirection)))
-            //{
-            //    customerdata = customerdata.orderby(sortcolumn + " " + sortcolumndirection);
-            //}
+            var data = _mapper.Map<List<IndexModel>>(results);
+            if (model.Order != null)
+            {
+                if (model.Order[0].Dir == "asc")
+                {
+                    data = data.OrderBy(data => data.FullName).ToList();
+                } else
+                {
+                    data = data.OrderByDescending(data => data.FullName).ToList();
+                }
+            }
             if (!string.IsNullOrEmpty(model.Search.Value))
             {
-                customerData = customerData.Where(m => m.FullName.Contains(model.Search.Value)
-                                            || m.Address.Contains(model.Search.Value)).ToList();
+                data = data.Where(m => m.FullName.ToLower().Contains(model.Search.Value.ToLower())
+                                            || m.Address.ToLower().Contains(model.Search.Value.ToLower())).ToList();
             }
-            recordsTotal = customerData.Count();
-            var data = customerData.Skip(skip).Take(pageSize).ToList();
+            recordsTotal = data.Count;
+            data = data.Skip(skip).Take(pageSize).ToList();
             var jsonData = new { draw = model.Draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
             return Json(jsonData);
 

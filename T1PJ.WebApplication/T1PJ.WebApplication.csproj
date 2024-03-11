@@ -22,12 +22,13 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.10" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\T1PJ.DataLayer\T1PJ.DataLayer.csproj" />
+    <ProjectReference Include="..\T1PJ.DataLayer\T1PJ.Domain.csproj" />
     <ProjectReference Include="..\T1PJ.Model\T1PJ.Model.csproj" />
-    <ProjectReference Include="..\T1PJ.Repository\T1PJ.Repository.csproj" />
+    <ProjectReference Include="..\T1PJ.Repository\T1PJ.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

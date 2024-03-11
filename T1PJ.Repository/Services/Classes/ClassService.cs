@@ -107,7 +107,7 @@ namespace T1PJ.Repository.Services.Classes
                         _context.StudentClasses.Add(studentClass);
                     }
                 }
-                _context.Classes.Update(c1);
+                //_context.Classes.Update(c1);
             }
             await _context.SaveChangesAsync();
         }
