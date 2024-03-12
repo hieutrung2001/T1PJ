@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using T1PJ.DataLayer.Context;
 using T1PJ.Repository.Services.Students;
-using T1PJ.Repository.Extensions;
+using T1PJ.Core.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);

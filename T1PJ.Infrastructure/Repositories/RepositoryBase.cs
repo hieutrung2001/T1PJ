@@ -8,10 +8,11 @@ using System.Text;
 using System.Threading.Tasks;
 using T1PJ.Core.Interfaces.Repositories;
 using T1PJ.DataLayer.Context;
+using T1PJ.DataLayer.Entity;
 
 namespace T1PJ.Infrastructure.Repositories
 {
-    public class RepositoryBase<T> : IRepository<T> where T : class
+    public class RepositoryBase<T> : IRepository<T> where T : class , IBaseEntity
     {
         protected T1PJContext _context;
 
@@ -326,5 +327,6 @@ namespace T1PJ.Infrastructure.Repositories
                 .Invoke(null, new object[] { source, lambda });
             return (IOrderedQueryable<T>)result;
         }
+
     }
 }

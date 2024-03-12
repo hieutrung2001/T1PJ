@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using T1PJ.Core.Extensions;
 using T1PJ.DataLayer;
 using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity.Identity;
-using T1PJ.Repository.Extensions;
 using T1PJ.Repository.Helpers.Students;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -8,7 +8,7 @@ using T1PJ.Repository.Services.Accounts;
 using T1PJ.Repository.Services.Classes;
 using T1PJ.Repository.Services.Students;
 
-namespace T1PJ.Repository.Extensions
+namespace T1PJ.Core.Extensions
 {
     public static class ApplicationServices
     {
