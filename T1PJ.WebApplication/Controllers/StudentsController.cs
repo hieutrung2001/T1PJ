@@ -25,14 +25,14 @@ namespace T1PJ.WebApplication.Controllers
 
         public async Task<IActionResult> Index(int? id)
         {
-            var students = await _service.GetAll();
-            if (id != null)
-            {
-                var model1 = _mapper.Map<List<IndexModel>>(await _service.GetStudentsOfClass((int)id));
-                return View(model1);
-            }
-            var model = _mapper.Map<List<IndexModel>>(students);
-            return View(model);
+            //var students = await _service.GetAll();
+            //if (id != null)
+            //{
+            //    var model1 = _mapper.Map<List<IndexModel>>(await _service.GetStudentsOfClass((int)id));
+            //    return View(model1);
+            //}
+            //var model = _mapper.Map<List<IndexModel>>(students);
+            return View();
         }
 
         public IActionResult Create()

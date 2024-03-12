@@ -27,7 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\T1PJ.DataLayer\T1PJ.Domain.csproj" />
-    <ProjectReference Include="..\T1PJ.Model\T1PJ.Model.csproj" />
     <ProjectReference Include="..\T1PJ.Repository\T1PJ.Core.csproj" />
   </ItemGroup>
 

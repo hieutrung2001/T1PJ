@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\T1PJ.DataLayer\T1PJ.Domain.csproj" />
-    <ProjectReference Include="..\T1PJ.Infrastructure\T1PJ.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

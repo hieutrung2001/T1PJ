@@ -29,8 +29,8 @@ namespace T1PJ.WebApplication.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var model = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(await _classService.GetAll());
-            return View(model);
+            //var model = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(await _classService.GetAll());
+            return View();
         }
 
         public async Task<IActionResult> Create()
