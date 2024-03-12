@@ -6,6 +6,7 @@ using System.Linq.Dynamic.Core;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Model.Paginations;
 using T1PJ.Repository.Services.Students;
 
 namespace T1PJ.WebApplication.Controllers
@@ -115,7 +116,7 @@ namespace T1PJ.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> LoadTable(Pagination model)
         {
-            var result = await _service.LoadTable(model);
+            JsonData<IndexModel> result = await _service.LoadTable(model);
             var jsonData = new { draw = result.Draw, recordsFiltered = result.RecordsFiltered, recordsTotal = result.RecordsTotal, data = result.Data };
             return Json(jsonData);
 

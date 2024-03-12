@@ -13,7 +13,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
-            <th>@Html.DisplayNameFor(model => model.StudentClasses)</th>
+            @* <th>@Html.DisplayNameFor(model => model.StudentClasses)</th> *@
             <th>
                 @Html.DisplayNameFor(model => model.Address)
             </th>
@@ -51,10 +51,10 @@
                         data: "fullName",
                         name: "FullName"
                     },
-                    {
-                        data: "studentClasses",
-                        name: "StudentClasses"
-                    },
+                    // {
+                    //     data: "studentClasses",
+                    //     name: "StudentClasses"
+                    // },
                     { data: "address", name: "Address" },
                     {
                         data: "id",

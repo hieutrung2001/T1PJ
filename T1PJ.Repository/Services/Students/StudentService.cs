@@ -14,27 +14,21 @@ using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
-using T1PJ.Domain.Model.Students;
+using T1PJ.Domain.Model.Paginations;
 
 namespace T1PJ.Repository.Services.Students
 {
     public class StudentService : IStudentService
     {
         private readonly T1PJContext _context;
-        private readonly IMapper _mapper;
 
-        public StudentService(T1PJContext context, IMapper mapper)
+        public StudentService(T1PJContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         public async Task<List<Student>> GetAll()
         {
-            if (_context == null || _context.Students == null)
-            {
-                return null;
-            }
             return await _context.Students.AsNoTracking().Select(x => new Student
             {
                 Id = x.Id,
@@ -46,16 +40,9 @@ namespace T1PJ.Repository.Services.Students
             }).ToListAsync();
         }
 
-        public async Task<JsonData> LoadTable(Pagination model)
+        public async Task<JsonData<IndexModel>> LoadTable(Pagination model)
         {
-            if (_context == null || _context.Students == null)
-            {
-                return null;
-            }
-
-            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
-            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
-            int recordsTotal = _context.Students.ToList().Count();
+            int recordsTotal = await _context.Students.CountAsync();
             int recordsFiltered = recordsTotal;
             var results = await _context.Students.AsNoTracking().Select(x => new IndexModel
             {
@@ -65,16 +52,29 @@ namespace T1PJ.Repository.Services.Students
                 PhoneNumber = x.PhoneNumber,
                 Address = x.Address,
                 StudentClasses = x.StudentClasses,
-            }).Take(pageSize).Skip(model.Start).ToListAsync();
+            }).Skip(model.Start).Take(model.Length).ToListAsync();
             if (model.Order != null)
             {
                 if (model.Order[0].Dir == "asc")
                 {
-                    results = results.OrderBy(data => data.FullName).ToList();
+                    if (model.Order[0].Column == 0)
+                    {
+                        results = results.OrderBy(data => data.FullName).ToList();
+                    } else if (model.Order[0].Column == 2)
+                    {
+                        results = results.OrderBy(data => data.Address).ToList();
+                    }
                 }
                 else
                 {
-                    results = results.OrderByDescending(data => data.FullName).ToList();
+                    if (model.Order[0].Column == 0)
+                    {
+                        results = results.OrderByDescending(data => data.FullName).ToList();
+                    }
+                    else if (model.Order[0].Column == 2)
+                    {
+                        results = results.OrderByDescending(data => data.Address).ToList();
+                    }
                 }
             }
             if (!string.IsNullOrEmpty(model.Search.Value))
@@ -84,25 +84,17 @@ namespace T1PJ.Repository.Services.Students
                 recordsFiltered = results.Count();
             }
             
-            return new JsonData { Draw = model.Draw, RecordsFiltered = recordsFiltered, RecordsTotal = recordsTotal, Data = results };
+            return new JsonData<IndexModel> { Draw = model.Draw, RecordsFiltered = recordsFiltered, RecordsTotal = recordsTotal, Data = results };
         }
 
         public async Task<Student> GetStudentById(int id)
         {
-            if (_context == null || _context.Students == null)
-            {
-                return null;
-            }
             var result1 = await _context.Students.AsNoTracking().Where(x => x.Id == id).FirstAsync();
             return result1;
         }
 
         public async Task<Student> Create(Student student)
         {
-            if (_context == null || _context.Students == null)
-            {
-                return null;
-            }
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
             return student;
@@ -141,10 +133,6 @@ namespace T1PJ.Repository.Services.Students
 
         public async Task<List<Student>> GetStudentsOfClass(int classId)
         {
-            if (_context == null || _context.Students == null)
-            {
-                return null;
-            }
             var studentsOfClass = new List<Student>();
             var students = await GetAll();
             if (students != null)
@@ -167,5 +155,6 @@ namespace T1PJ.Repository.Services.Students
             }
             return [];
         }
+
     }
 }

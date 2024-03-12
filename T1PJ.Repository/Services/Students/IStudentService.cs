@@ -7,13 +7,14 @@ using System.Web.Helpers;
 using System.Web.Mvc;
 using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.Domain.Model.Students;
+using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Model.Paginations;
 
 namespace T1PJ.Repository.Services.Students
 {
     public interface IStudentService
     {
-        Task<JsonData> LoadTable(Pagination model);
+        Task<JsonData<IndexModel>> LoadTable(Pagination model);
         Task<List<Student>> GetAll();
         Task<List<Student>> GetStudentsOfClass(int classId);
         Task<Student> GetStudentById(int id);

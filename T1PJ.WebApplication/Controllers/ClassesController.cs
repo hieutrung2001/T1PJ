@@ -7,6 +7,7 @@ using T1PJ.DataLayer.Entity;
 using T1PJ.DataLayer.Model.Classes;
 using T1PJ.DataLayer.Model.Paginations;
 using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Model.Paginations;
 using T1PJ.Repository.Services.Classes;
 using T1PJ.Repository.Services.Students;
 
@@ -145,14 +146,8 @@ namespace T1PJ.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> LoadTable(Pagination model)
         {
-            var results = await _classService.GetAll();
-            int pageSize = model.Length != null ? Convert.ToInt32(model.Length) : 0;
-            int skip = model.Start != null ? Convert.ToInt32(model.Start) : 0;
-            int recordsTotal = 0;
-            var customerData = _mapper.Map<List<DataLayer.Model.Classes.IndexModel>>(results);
-            recordsTotal = customerData.Count();
-            var data = customerData.Skip(skip).Take(pageSize).ToList();
-            var jsonData = new { draw = model.Draw, recordsFiltered = recordsTotal, recordsTotal = recordsTotal, data = data };
+            JsonData<DataLayer.Model.Classes.IndexModel> result = await _classService.LoadTable(model);
+            var jsonData = new { draw = result.Draw, recordsFiltered = result.RecordsFiltered, recordsTotal = result.RecordsTotal, data = result.Data };
             return Json(jsonData);
 
         }

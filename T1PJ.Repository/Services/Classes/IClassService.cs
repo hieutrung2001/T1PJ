@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using T1PJ.DataLayer.Entity;
+using T1PJ.DataLayer.Model.Classes;
+using T1PJ.DataLayer.Model.Paginations;
+using T1PJ.Domain.Model.Paginations;
 
 namespace T1PJ.Repository.Services.Classes
 {
     public interface IClassService
     {
+        Task<JsonData<IndexModel>> LoadTable(Pagination model);
         Task<List<Class>> GetAll();
         Task<Class> GetClassById(int id);
         Task Create(Class c);

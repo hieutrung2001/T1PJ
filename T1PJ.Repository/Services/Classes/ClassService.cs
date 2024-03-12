@@ -6,6 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using T1PJ.DataLayer.Context;
 using T1PJ.DataLayer.Entity;
+using T1PJ.DataLayer.Model.Classes;
+using T1PJ.DataLayer.Model.Paginations;
+using T1PJ.Domain.Model.Paginations;
 
 namespace T1PJ.Repository.Services.Classes
 {
@@ -18,12 +21,43 @@ namespace T1PJ.Repository.Services.Classes
             _context = context;
         }
 
+        public async Task<JsonData<IndexModel>> LoadTable(Pagination model)
+        {
+            int recordsTotal = await _context.Classes.CountAsync();
+            int recordsFiltered = recordsTotal;
+            var results = await _context.Classes.AsNoTracking().Select(x => new IndexModel
+            {
+                Id = x.Id,
+                Name = x.Name,
+                StudentClasses = x.StudentClasses,
+            }).Skip(model.Start).Take(model.Length).ToListAsync();
+            if (model.Order != null)
+            {
+                if (model.Order[0].Dir == "asc")
+                {
+                    if (model.Order[0].Column == 0)
+                    {
+                        results = results.OrderBy(data => data.Name).ToList();
+                    }
+                }
+                else
+                {
+                    if (model.Order[0].Column == 0)
+                    {
+                        results = results.OrderByDescending(data => data.Name).ToList();
+                    }
+                }
+            }
+            if (!string.IsNullOrEmpty(model.Search.Value))
+            {
+                results = results.Where(m => m.Name.ToLower().Contains(model.Search.Value.ToLower())).ToList();
+                recordsFiltered = results.Count();
+            }
+
+            return new JsonData<IndexModel> { Draw = model.Draw, RecordsFiltered = recordsFiltered, RecordsTotal = recordsTotal, Data = results };
+        }
         public async Task<List<Class>> GetAll()
         {
-            if (_context == null || _context.Classes == null)
-            {
-                return null;
-            }
             return await _context.Classes.AsNoTracking().Select(x => new Class
             {
                 Id = x.Id,
@@ -34,10 +68,6 @@ namespace T1PJ.Repository.Services.Classes
 
         public async Task<Class> GetClassById(int id)
         {
-            if (_context == null || _context.Classes == null)
-            {
-                return null;
-            }
             var result = await _context.Classes.AsNoTracking().Select(x => new Class
             {
                 Id = x.Id,
@@ -49,10 +79,6 @@ namespace T1PJ.Repository.Services.Classes
 
         public async Task Create(Class c)
         {
-            if (_context == null || _context.Classes == null)
-            {
-                throw new Exception("Context is null!");
-            }
             _context.Classes.Add(c);
             await _context.SaveChangesAsync();
             if (c.StudentClasses?.Count > 0)
@@ -69,10 +95,6 @@ namespace T1PJ.Repository.Services.Classes
 
         public async Task Update(Class c)
         {
-            if (_context == null || _context.Classes == null)
-            {
-                throw new Exception("Class not found!");
-            }
             var c1 = _context.Classes.Select(x => new Class
             {
                 Id = x.Id,
@@ -108,6 +130,14 @@ namespace T1PJ.Repository.Services.Classes
                     }
                 }
                 //_context.Classes.Update(c1);
+            } else
+            {
+                foreach (var item in c.StudentClasses)
+                {
+                    var studentClass = new StudentClass { ClassId = c.Id, StudentId = item.StudentId };
+                    c1.StudentClasses.Add(studentClass);
+                    _context.StudentClasses.Add(studentClass);
+                }
             }
             await _context.SaveChangesAsync();
         }
