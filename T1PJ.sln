@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Core", "T1PJ.Repositor
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Domain", "T1PJ.DataLayer\T1PJ.Domain.csproj", "{A4157227-EC9B-427D-A59F-E18DB0FE19E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.WebApplication", "T1PJ.WebApplication\T1PJ.WebApplication.csproj", "{43F101DF-E692-4641-83D2-29E81DD8BE8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Application", "T1PJ.WebApplication\T1PJ.Application.csproj", "{43F101DF-E692-4641-83D2-29E81DD8BE8B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "T1PJ.Infrastructure", "T1PJ.Infrastructure\T1PJ.Infrastructure.csproj", "{92644D90-11E1-4407-9393-D9615A684289}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "T1PJ.API", "T1PJ.API\T1PJ.API.csproj", "{0195802C-A7F5-4598-95F6-0F18D5A5A3F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{92644D90-11E1-4407-9393-D9615A684289}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92644D90-11E1-4407-9393-D9615A684289}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92644D90-11E1-4407-9393-D9615A684289}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0195802C-A7F5-4598-95F6-0F18D5A5A3F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0195802C-A7F5-4598-95F6-0F18D5A5A3F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0195802C-A7F5-4598-95F6-0F18D5A5A3F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0195802C-A7F5-4598-95F6-0F18D5A5A3F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

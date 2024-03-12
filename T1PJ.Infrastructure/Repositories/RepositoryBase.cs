@@ -145,7 +145,7 @@ namespace T1PJ.Infrastructure.Repositories
         public async Task<ICollection<T>> QueryAsync(Expression<Func<T, bool>>? filter = null, Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null, string includeProperties = "", int pageSize = 0, int page = -1)
         {
             // get object from database only query data
-            IQueryable<T> query = _context.Set<T>().Where(x => !x.IsDeleted).AsNoTracking();
+            IQueryable<T> query = _context.Set<T>().AsNoTracking();
 
 
             // if fillter

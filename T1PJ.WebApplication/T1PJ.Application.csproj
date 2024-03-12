@@ -30,8 +30,4 @@
     <ProjectReference Include="..\T1PJ.Repository\T1PJ.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

@@ -14,9 +14,9 @@ namespace T1PJ.Repository.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IAccountService, AccountService>();
+            //services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IStudentService, StudentService>();
-            services.AddScoped<IClassService, ClassService>();
+            //services.AddScoped<IClassService, ClassService>();
             return services;
         }
     }

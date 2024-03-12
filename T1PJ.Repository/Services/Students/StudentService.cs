@@ -118,10 +118,6 @@ namespace T1PJ.Repository.Services.Students
         public async Task Delete(int id)
         {
             var student = _context.Students.Find(id);
-            if (_context is null || _context.Students == null)
-            {
-                throw new Exception("Student not found!");
-            }
             if (student == null)
             {
                 throw new Exception("Student not found!");

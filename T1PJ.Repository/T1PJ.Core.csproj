@@ -27,4 +27,8 @@
     <ProjectReference Include="..\T1PJ.DataLayer\T1PJ.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
