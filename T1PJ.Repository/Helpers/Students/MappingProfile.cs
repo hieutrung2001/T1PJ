@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Entity.Identity;
-using T1PJ.DataLayer.Model.Accounts;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Entity.Identity;
+using T1PJ.Domain.Model.Accounts;
+using T1PJ.Domain.Model.Students;
 
-namespace T1PJ.Repository.Helpers.Students
+namespace T1PJ.Core.Helpers.Students
 {
     public class MappingProfile : Profile
     {

@@ -3,15 +3,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Classes;
-using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Model.Classes;
 using T1PJ.Domain.Model.Paginations;
-using T1PJ.Repository.Services.Classes;
-using T1PJ.Repository.Services.Students;
+using T1PJ.Domain.Model.Students;
+using T1PJ.Domain.Model.Paginations;
+using T1PJ.Core.Services.Classes;
+using T1PJ.Core.Services.Students;
 
-namespace T1PJ.WebApplication.Controllers
+namespace T1PJ.Application.Controllers
 {
     [Authorize]
     public class ClassesController : Controller
@@ -58,7 +58,7 @@ namespace T1PJ.WebApplication.Controllers
                         results.Add(new StudentClass { StudentId = Int32.Parse(item) });
                     }
                 }
-                var model = new DataLayer.Model.Classes.CreateViewModel { Name = Name, StudentClasses = results };
+                var model = new Domain.Model.Classes.CreateViewModel { Name = Name, StudentClasses = results };
                 var c = _mapper.Map<Class>(model);
                 try
                 {
@@ -108,7 +108,7 @@ namespace T1PJ.WebApplication.Controllers
                     dataTextField: nameof(Student.FullName)
                 );
 
-            var model = _mapper.Map<DataLayer.Model.Classes.EditViewModel>(result);
+            var model = _mapper.Map<Domain.Model.Classes.EditViewModel>(result);
             model.StudentSelectList = ids;
             return View(model);
         }
@@ -126,7 +126,7 @@ namespace T1PJ.WebApplication.Controllers
                 }
                 try
                 {
-                    await _classService.Update(_mapper.Map<Class>(new DataLayer.Model.Classes.EditViewModel { Id = Id, Name = Name, StudentClasses = results}));
+                    await _classService.Update(_mapper.Map<Class>(new Domain.Model.Classes.EditViewModel { Id = Id, Name = Name, StudentClasses = results}));
                     return Json(new { status = true });
                 } catch (Exception ex)
                 {
@@ -139,14 +139,14 @@ namespace T1PJ.WebApplication.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var c = await _classService.GetClassById(id);
-            return View(_mapper.Map<DataLayer.Model.Classes.EditViewModel>(c));
+            return View(_mapper.Map<Domain.Model.Classes.EditViewModel>(c));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> LoadTable(Pagination model)
         {
-            JsonData<DataLayer.Model.Classes.IndexModel> result = await _classService.LoadTable(model);
+            JsonData<Domain.Model.Classes.IndexModel> result = await _classService.LoadTable(model);
             var jsonData = new { draw = result.Draw, recordsFiltered = result.RecordsFiltered, recordsTotal = result.RecordsTotal, data = result.Data };
             return Json(jsonData);
 

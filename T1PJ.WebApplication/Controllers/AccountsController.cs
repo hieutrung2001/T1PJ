@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using T1PJ.DataLayer.Context;
-using T1PJ.DataLayer.Entity.Identity;
-using T1PJ.DataLayer.Model.Accounts;
-using T1PJ.Repository.Services.Accounts;
+using T1PJ.Domain.Context;
+using T1PJ.Domain.Entity.Identity;
+using T1PJ.Domain.Model.Accounts;
+using T1PJ.Core.Services.Accounts;
 
-namespace T1PJ.WebApplication.Controllers
+namespace T1PJ.Application.Controllers
 {
     public class AccountsController : Controller
     {

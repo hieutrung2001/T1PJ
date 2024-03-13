@@ -3,13 +3,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Linq.Dynamic.Core;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Entity;
 using T1PJ.Domain.Model.Paginations;
-using T1PJ.Repository.Services.Students;
+using T1PJ.Domain.Model.Students;
+using T1PJ.Domain.Model.Paginations;
+using T1PJ.Core.Services.Students;
 
-namespace T1PJ.WebApplication.Controllers
+namespace T1PJ.Application.Controllers
 {
     [Authorize]
     public class StudentsController : Controller

@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
+using T1PJ.Domain.Entity;
 
-namespace T1PJ.DataLayer.Model.Classes
+namespace T1PJ.Domain.Model.Classes
 {
     public class CreateViewModel
     {

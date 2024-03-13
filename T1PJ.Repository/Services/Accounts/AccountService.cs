@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity.Identity;
-using T1PJ.DataLayer.Model.Accounts;
+using T1PJ.Domain.Entity.Identity;
+using T1PJ.Domain.Model.Accounts;
 
-namespace T1PJ.Repository.Services.Accounts
+namespace T1PJ.Core.Services.Accounts
 {
     public class AccountService : IAccountService
     {

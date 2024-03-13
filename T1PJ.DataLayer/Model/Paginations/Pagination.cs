@@ -5,10 +5,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Model.Students;
 
-namespace T1PJ.DataLayer.Model.Paginations
+namespace T1PJ.Domain.Model.Paginations
 {
     public class Pagination
     {

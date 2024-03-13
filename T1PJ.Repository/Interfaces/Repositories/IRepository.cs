@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
+using T1PJ.Domain.Entity;
 
 namespace T1PJ.Core.Interfaces.Repositories
 {

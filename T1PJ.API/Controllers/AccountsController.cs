@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Model.Paginations;
+using T1PJ.Domain.Model.Students;
 
 namespace T1PJ.API.Controllers
 {

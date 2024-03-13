@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
+using T1PJ.Domain.Entity;
 
-namespace T1PJ.DataLayer.Config
+namespace T1PJ.Domain.Config
 {
     public class ClassConfig : IEntityTypeConfiguration<Class>
     {

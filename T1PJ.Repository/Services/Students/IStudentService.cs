@@ -5,12 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Helpers;
 using System.Web.Mvc;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.DataLayer.Model.Students;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Model.Paginations;
+using T1PJ.Domain.Model.Students;
 using T1PJ.Domain.Model.Paginations;
 
-namespace T1PJ.Repository.Services.Students
+namespace T1PJ.Core.Services.Students
 {
     public interface IStudentService
     {

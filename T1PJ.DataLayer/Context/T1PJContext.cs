@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
-using T1PJ.DataLayer.Config;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Entity.Identity;
+using T1PJ.Domain.Config;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Entity.Identity;
 
-namespace T1PJ.DataLayer.Context
+namespace T1PJ.Domain.Context
 {
     public class T1PJContext : IdentityDbContext<User>
     {

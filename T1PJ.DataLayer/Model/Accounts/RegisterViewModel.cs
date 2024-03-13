@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T1PJ.DataLayer.Model.Accounts
+namespace T1PJ.Domain.Model.Accounts
 {
     public class RegisterViewModel
     {

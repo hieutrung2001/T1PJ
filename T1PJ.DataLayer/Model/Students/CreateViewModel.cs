@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T1PJ.DataLayer.Model.Students
+namespace T1PJ.Domain.Model.Students
 {
     public class CreateViewModel
     {

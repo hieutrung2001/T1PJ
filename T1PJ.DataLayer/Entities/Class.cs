@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T1PJ.DataLayer.Entity
+namespace T1PJ.Domain.Entity
 {
     public class Class : BaseEntity
     {

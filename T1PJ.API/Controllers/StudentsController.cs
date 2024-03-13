@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Paginations;
-using T1PJ.DataLayer.Model.Students;
-using T1PJ.Repository.Services.Students;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Model.Paginations;
+using T1PJ.Domain.Model.Students;
+using T1PJ.Core.Services.Students;
 
 namespace T1PJ.API.Controllers
 {

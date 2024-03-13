@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using T1PJ.DataLayer.Context;
-using T1PJ.Repository.Services.Students;
+using T1PJ.Domain.Context;
+using T1PJ.Core.Services.Students;
 using T1PJ.Core.Extensions;
 
 

@@ -1,6 +1,6 @@
-﻿using T1PJ.DataLayer.Entity;
+﻿using T1PJ.Domain.Entity;
 
-namespace T1PJ.DataLayer.Model.Students
+namespace T1PJ.Domain.Model.Students
 {
     public class IndexModel
     {

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T1PJ.DataLayer.Entity;
-using T1PJ.DataLayer.Model.Classes;
-using T1PJ.DataLayer.Model.Paginations;
+using T1PJ.Domain.Entity;
+using T1PJ.Domain.Model.Classes;
+using T1PJ.Domain.Model.Paginations;
 using T1PJ.Domain.Model.Paginations;
 
-namespace T1PJ.Repository.Services.Classes
+namespace T1PJ.Core.Services.Classes
 {
     public interface IClassService
     {

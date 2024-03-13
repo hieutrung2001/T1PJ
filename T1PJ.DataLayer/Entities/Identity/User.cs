@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T1PJ.DataLayer.Entity.Identity
+namespace T1PJ.Domain.Entity.Identity
 {
     public class User : IdentityUser
     {

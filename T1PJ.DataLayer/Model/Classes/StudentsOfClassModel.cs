@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace T1PJ.DataLayer.Model.Classes
+namespace T1PJ.Domain.Model.Classes
 {
     public class StudentsOfClassModel
     {

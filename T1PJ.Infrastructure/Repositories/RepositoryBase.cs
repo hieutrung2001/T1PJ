@@ -7,8 +7,8 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using T1PJ.Core.Interfaces.Repositories;
-using T1PJ.DataLayer.Context;
-using T1PJ.DataLayer.Entity;
+using T1PJ.Domain.Context;
+using T1PJ.Domain.Entity;
 
 namespace T1PJ.Infrastructure.Repositories
 {

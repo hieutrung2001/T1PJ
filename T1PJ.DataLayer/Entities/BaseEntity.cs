@@ -1,5 +1,5 @@
 ﻿
-namespace T1PJ.DataLayer.Entity
+namespace T1PJ.Domain.Entity
 {
     public interface IBaseEntity
     {
